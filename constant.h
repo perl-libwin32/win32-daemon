@@ -37,6 +37,19 @@ enum eConstantType { NotDefined = 0, NotPresent, String, Numeric };
 #endif // _DEBUG
 
 
+#ifndef SERVICE_CONTROL_DEVICEEVENT
+#   define SERVICE_CONTROL_DEVICEEVENT            0x0b
+#endif
+#ifndef SERVICE_CONTROL_HARDWAREPROFILECHANGE
+#   define SERVICE_CONTROL_HARDWAREPROFILECHANGE  0x0c
+#endif
+#ifndef SERVICE_CONTROL_POWEREVENT
+#   define SERVICE_CONTROL_POWEREVENT             0x0d
+#endif
+#ifndef SERVICE_CONTROL_SESSIONCHANGE
+#   define SERVICE_CONTROL_SESSIONCHANGE          0x0e
+#endif
+
 //	If the SCM has not yet been initialized with the service then the state is SERVICE_NOT_READY
 //	Most scripts will never see this.
 #define SERVICE_NOT_READY				0x0

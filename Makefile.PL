@@ -13,7 +13,7 @@ require Win32;
 my %param = (
     NAME          => 'Win32::Daemon',
     VERSION_FROM  => 'Daemon.pm',
-    DEFINE        => '-DPERL_NO_GET_CONTEXT -DSERVICE_CONTROL_DEVICEEVENT=0x0b -DSERVICE_CONTROL_HARDWAREPROFILECHANGE=0x0c -DSERVICE_CONTROL_POWEREVENT=0x0d -DSERVICE_CONTROL_SESSIONCHANGE=0x0e',
+    DEFINE        => '-DPERL_NO_GET_CONTEXT',
     INC           => '-I.',
     OBJECT        => 'CCallbackList$(OBJ_EXT) CCallbackTimer$(OBJ_EXT) Constant$(OBJ_EXT) CWinStation$(OBJ_EXT) Daemon$(OBJ_EXT) ServiceThread$(OBJ_EXT)',
     XS            => { 'Daemon.xs' => 'Daemon.cpp' },
