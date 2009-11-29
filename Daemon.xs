@@ -1608,11 +1608,11 @@ DeleteService( ... )
 
 		if( 2 == items )
 		{
-			pszMachine = SvPV( ST( dwIndex ), na );
+			pszMachine = SvPV_nolen( ST( dwIndex ) );
 			dwIndex++;
 		}
 
-		if( NULL != ( pszServiceName = SvPV( ST( dwIndex ), na ) ) )
+		if( NULL != ( pszServiceName = SvPV_nolen( ST( dwIndex ) ) ) )
 		{
 	        
 			OPEN_SERVICE_CONTROL_MANAGER( pszMachine )
@@ -2135,7 +2135,7 @@ ShowService( pszWindowStation = TEXT( "Winsta0" ), ... )
 
 		if( 1 < items )
 		{
-			pszDesktop = (LPTSTR) SvPV( ST( 0 ), na );
+			pszDesktop = (LPTSTR) SvPV_nolen( ST( 0 ) );
 		}
 
 		// Free your mind...and the current console. :)
@@ -2323,7 +2323,7 @@ SetSecurity( pszMachine, pszServiceName, pSvSecurityObject )
 			if( ! IsValidSecurityDescriptor( pSD ) )
 			{
 				// Hmmm. Okay, let's try a relative security descriptor...
-				pSD = (SECURITY_DESCRIPTOR*) SvPV( pSvSecurityObject, na );
+				pSD = (SECURITY_DESCRIPTOR*) SvPV_nolen( pSvSecurityObject );
 				if( ! IsValidSecurityDescriptor( pSD ) )
 				{
 					// Sigh. No, we don't seem to have any security descriptor
@@ -2538,7 +2538,7 @@ DebugOutputPath( ... )
 #ifdef _DEBUG
 		if( items )
 		{
-			LPCTSTR pszDebugOutputPath = SvPV( ST( 0 ), na );
+			LPCTSTR pszDebugOutputPath = SvPV_nolen( ST( 0 ) );
 			if( NULL != pszDebugOutputPath )
 			{
 				CreateLog( pszDebugOutputPath );

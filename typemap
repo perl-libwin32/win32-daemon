@@ -98,7 +98,7 @@ T_LONG
 T_U_LONG
 	$var = (unsigned long)SvIV($arg)
 T_CHAR
-	$var = (char)*SvPV($arg,na)
+	$var = (char)*SvPV_nolen($arg)
 T_U_CHAR
 	$var = (unsigned char)SvIV($arg)
 T_FLOAT
@@ -108,7 +108,7 @@ T_NV
 T_DOUBLE
 	$var = (double)SvNV($arg)
 T_PV
-	$var = ($type)SvPV($arg,na)
+	$var = ($type)SvPV_nolen($arg)
 T_PTR
 	$var = ($type)SvIV($arg)
 T_PTRREF
@@ -164,7 +164,7 @@ T_REFOBJ
 T_OPAQUE
 	$var NOT IMPLEMENTED
 T_OPAQUEPTR
-	$var = ($type)SvPV($arg,na)
+	$var = ($type)SvPV_nolen($arg)
 T_PACKED
 	$var = XS_unpack_$ntype($arg)
 T_PACKEDARRAY

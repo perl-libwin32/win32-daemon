@@ -265,7 +265,7 @@
         SV *pSv = HashGetSV( aTHX_ pHv, pszKeyName );
         if( NULL != pSv )
         {
-            return( SvPV( pSv, na ) );
+            return( SvPV_nolen( pSv ) );
         }
         else
         {
@@ -349,7 +349,7 @@
     //  This will return a string of dwLength bytes long ignoring any embedded nul chars.
     #define ARRAY_GET(x,y)          (SV*) ARRAY_FETCH( aTHX_ (AV*)(x), (I32)(y) )
     #define ARRAY_GET_SV(x,y)       (SV*) ARRAY_FETCH( aTHX_ (AV*)(x), (I32)(y) )
-    #define ARRAY_GET_PV(x,y)       SvPV( ARRAY_FETCH( aTHX_ (AV*)(x), (I32)(y) ), na )
+    #define ARRAY_GET_PV(x,y)       SvPV_nolen( ARRAY_FETCH( aTHX_ (AV*)(x), (I32)(y) ) )
     #define ARRAY_GET_PVN(x,y,z)    SvPV( ARRAY_FETCH( aTHX_ (AV*)(x), (I32)(y) ), (I32)(z) )
     #define ARRAY_GET_IV(x,y)       SvIV( ARRAY_FETCH( aTHX_ (AV*)(x), (I32)(y) ) )
     #define ARRAY_GET_NV(x,y)       SvNV( ARRAY_FETCH( aTHX_ (AV*)(x), (I32)(y) ) )
