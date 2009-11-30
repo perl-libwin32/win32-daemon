@@ -6,7 +6,7 @@
 #endif
 
 	// preWin32Perl.h will load the Perl releated headers
-	#include <preWin32Perl.h>
+	#include "preWin32Perl.h"
 
 
 //	#include XS_Win32Perlv2.h

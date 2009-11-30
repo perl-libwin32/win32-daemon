@@ -50,7 +50,7 @@ typedef wchar_t wctype_t; /* in tchar.h, but unavailable unless _UNICODE */
 #include <lmapibuf.h>
 #include <LMERR.H>      //  For the NERR_Succes macro
 
-#include <XS_Win32Perl.h>
+#include "XS_Win32Perl.h"
 //	#include <preWin32Perl.h>
 //	#include <Win32Perl.h>
 
