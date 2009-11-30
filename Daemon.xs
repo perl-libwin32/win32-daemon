@@ -1998,7 +1998,7 @@ SetServiceBits( dwBits = 0, ... )
 			hService = (SERVICE_STATUS_HANDLE) SvIV( ST( 1 ) );
 		}
 
-		if( NULL != hService )
+		if( 0 != hService )
 		{
 
 			// SetServiceBits() for some reason will not link. The link lib

@@ -16,16 +16,6 @@
 //      Refer to the Win32Perl.h header for details on use.
 //
 
-////////////////////////////
-// The macro _MSC_VER defines the version of the Microsoft compiler being used
-// If this macro is not defined (eg. compiling resources, which uses the 
-// resource compiler and not the c compiler) then let's define it for
-// fun (and so Perl's headers work correctly).
-// Default value is 1200 (defining MS C version 6.0)
-#ifndef _MSC_VER
-    #define _MSC_VER 1200
-#endif
-
 	//////////////////////////////////////////////////////////////////////////
 	//
 	//  Load Perl Headers

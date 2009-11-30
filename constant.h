@@ -20,7 +20,7 @@
 
 #include <winSvc.h>
 
-#include <crtdbg.h>
+// #include <crtdbg.h>
 
 enum eConstantType { NotDefined = 0, NotPresent, String, Numeric };
 
@@ -191,4 +191,4 @@ HANDLE CreateLog( LPCTSTR pszPath );
     void CallPerlRoutine( pTHX_ CV* pPerlSubroutine, DWORD dwCommand, HV* pHvContext );
 #endif // ENABLE_CALLBACKS
 
-#endif _CONSTANT_H_
+#endif // _CONSTANT_H_

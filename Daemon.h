@@ -176,7 +176,7 @@ HINSTANCE   ghDLL = 0;
 int     giThread = 0;
 int     iTheList = 0;
 TCHAR   gszModulePath[ MAX_PATH ];
-SERVICE_STATUS_HANDLE ghService = NULL;  
+SERVICE_STATUS_HANDLE ghService = 0;
 SERVICE_STATUS gServiceStatus;
 SID    *gpSid;
 HANDLE  ghServiceThread;

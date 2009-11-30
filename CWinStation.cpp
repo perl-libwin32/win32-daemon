@@ -204,8 +204,8 @@ BOOL CWinStation::AddSecurityPrivileges( HANDLE hHandle, SID *pSid, PermissionTy
     if( ( FALSE == bTempResult ) && ( ERROR_INSUFFICIENT_BUFFER == dwError ) )
     {
         // alloc memory for the security desc.
-        pSd = new BYTE [ dwLength ];
-        pNewSd = new BYTE [ dwLength ];
+        pSd = (PSECURITY_DESCRIPTOR)new BYTE [ dwLength ];
+        pNewSd = (PSECURITY_DESCRIPTOR)new BYTE [ dwLength ];
         if( ( NULL != pSd ) && ( NULL != pNewSd ) )
         {
             DWORD dwSdLength;

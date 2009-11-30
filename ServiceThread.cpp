@@ -39,7 +39,7 @@
 #include "CWinStation.hpp"
 #include "ServiceThread.hpp"
 
-#include <crtdbg.h>
+// #include <crtdbg.h>
 
 static SERVICE_TABLE_ENTRY gpServiceTable[] =
 {
