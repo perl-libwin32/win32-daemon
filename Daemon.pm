@@ -160,7 +160,8 @@ return( 1 );
 
 END
 {
-    Win32::Daemon::StopService();
+    # Stop the service only if we are in the main thread (not in a forked process)
+    Win32::Daemon::StopService() if $$ > 0;
 }
 
 __END__
@@ -1093,7 +1094,7 @@ will be most impacted as they will expect
 	   StartService().
 	   Set the callback using "timer" as the callback name. Using "running" will also work but it
 	   is mapped to "timer". If you specify both, only "timer" will be registered.
-	   
-	   
- 
-	
+
+    - 20091028 Olivier Mengue
+        -Disabled END {} in non-main threads to fix bug RT#50020
+

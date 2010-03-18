@@ -86,3 +86,6 @@ HISTORY:
 	  is mapped to "timer". If you specify both, only "timer" will be registered.
 	- Created TestFramework.pm to help with testing services.
 	- Pruned out unnecessary stuff from Daemon.pm file.
+
+20091028 Olivier Mengue
+        -Disabled END {} in non-main threads to fix bug RT#50020
