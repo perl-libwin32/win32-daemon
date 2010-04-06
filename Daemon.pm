@@ -3,16 +3,6 @@
 #//  Daemon.pm
 #//  Win32::Daemon Perl extension package file
 #//
-#//  Copyright (c) 1998-2002 Dave Roth
-#//  Courtesy of Roth Consulting
-#//  http://www.roth.net/
-#//
-#//  This file may be copied or modified only under the terms of either 
-#//  the Artistic License or the GNU General Public License, which may 
-#//  be found in the Perl 5.0 source kit.
-#//
-#//  2008.03.24  :Date
-#//  20080324    :Version
 #//////////////////////////////////////////////////////////////////////////////
 
 package Win32::Daemon;
@@ -1017,3 +1007,27 @@ then both "running" and "timer" are registered and only "timer" is recognized (s
 
 Legacy scripts which call Win32::Daemon::Callback() passing in only one catchall subroutine reference
 will be most impacted as they will expect.
+
+=head1 AUTHOR
+
+Dave Roth, Roth Consulting, http://www.roth.net/
+
+=head2 CONTRIBUTORS
+
+Jan Dubois <jand@activestate.com>
+
+Marc Pijnappels <marc.pijnappels@nec-computers.com>
+
+Olivier Mengue <dolmen@cpan.org>
+
+=head1 COPYRIGHT
+
+Copyright (c) 1998 - 2010 the Win32::Daemon L</AUTHOR> and L</CONTRIBUTORS>
+as listed above.
+
+=head1 LICENSE
+
+This library is free software and may be distributed under the same terms
+as perl itself.
+
+=cut
