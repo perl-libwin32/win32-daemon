@@ -18,6 +18,7 @@ Win32Perl.h
 constant.cpp
 constant.h
 preWin32Perl.h
+t/00-load.t
 test/AutoStart.pl
 test/Callback.ini
 test/Callback.pl
