@@ -20,6 +20,35 @@ HISTORY:
 	-Added:
 	-AcceptedControls()
 
+20011205 rothd
+        -Fixed bug where "invalid service state 80" is reported in the Win32 event log.
+        -Added initial support for SCM request callbacks (this is not implemented fully and
+         is not supported yet).
+        -Added SERVICE_CONTROL_NONE constant
+        -Fixed State() so it only returns states, not commands.
+        -Modified QueryLastMessage(). It now allows you to reset the last message to SERVICE_CONTROL_NONE.
+        -Added SERVICE_NOT_READY state
+        -Cleaned up some states.
+        -Added AcceptedControls() function.
+
+20011217 rothd
+        - Added support for .Net Server accept control contants:
+            SERVICE_ACCEPT_HARDWAREPROFILECHANGE
+            SERVICE_ACCEPT_POWEREVENT
+            SERVICE_ACCEPT_SESSIONCHANGE
+
+20011221 rothd@roth.net
+        - Fixed bug where service doesn't work properly with Windows NT 4. We were 
+          defaulting by acccepting the SERVICE_ACCEPT_PARAMCHANGE and 
+          SERVICE_ACCEPT_NETBINDCHANGE controls. However, they were introduced in 
+          Win2k so NT 4 coughed up blood with them.
+
+20020108 rothd@roth.net
+        - Fixed another bug wwhere servie wouldn't work on Win2k machines. We
+          were treating Win2k (version 5.0) the same as WinXP (version 5.1) and
+          adding WinXP specific controls. This rendered the service unable to
+          start, pause or stop. Fix was only in the Daemon.pm file.
+
 20020114 marc.pijnappels@nec-computers.com
         - Fixed another bug where service wouldn't work on WinXP machines. Variable 
           recognized_controls was wrongly initialized for WinXP systems. This 
