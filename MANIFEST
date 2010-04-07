@@ -11,6 +11,7 @@ Daemon.rc
 Daemon.xs
 Daemonbuild.h
 MANIFEST
+META.yml
 Makefile.PL
 ServiceThread.cpp
 ServiceThread.hpp
