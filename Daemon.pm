@@ -715,6 +715,7 @@ time it starts.  It will immediately terminate.
 This particular example does not really illustrate the capabilities of a Perl based service.
 
 =head2 Example 2: Typical skeleton code
+
   # This style of Win32::Daemon use is obsolete. It still works but the
   # callback model is more efficient and easier to use. Refer to examples 4 and 5.
   use Win32;
@@ -981,6 +982,7 @@ have to do essentially the same thing that the main while loop in C<Example 2> d
 =head1 NOTES:
 
 =head2 Timer/Running Callbacks:
+
 Starting with build 20080321 the "running" callback is deprecated and replaced with the
 "timer" callback. Scripts should no longer test for a state of SERVICE_RUNNING but instead check
 for the state of SERVICE_CONTROL_TIMER to indicate whether or not a callback has occurred 
@@ -989,17 +991,25 @@ If a script...
 
 =over 4
 
-=item ...registers for the "running" callback it will continue to work
+=item *
+
+...registers for the "running" callback it will continue to work
 as expected: timer expiration results in a callback to the subroutine registered for the "running"
 callback passing in a value of SERVICE_RUNNING. 
 
-=item ...registers for the "timer" callback then timer expiration results in a callback to the 
+=item *
+
+...registers for the "timer" callback then timer expiration results in a callback to the 
 subroutine registered for the "timer" callback, passing in a value of SREVICE_CONTROL_TIMER.
 
-=item ...registers for both "running" and "timer" then only Win32::Daemon treats it as if only
+=item *
+
+...registers for both "running" and "timer" then only Win32::Daemon treats it as if only
 "timer" was registered (see above for behavior).
 
-=item ...registers for everything by passing one subroutine reference into Win32::Daemon::Callback()
+=item *
+
+...registers for everything by passing one subroutine reference into Win32::Daemon::Callback()
 then both "running" and "timer" are registered and only "timer" is recognized (see previous
 2 behaviors above).
 
@@ -1012,13 +1022,13 @@ will be most impacted as they will expect.
 
 Dave Roth, Roth Consulting, http://www.roth.net/
 
-=head2 CONTRIBUTORS
+=head1 CONTRIBUTORS
 
 Jan Dubois <jand@activestate.com>
 
 Marc Pijnappels <marc.pijnappels@nec-computers.com>
 
-Olivier Mengue <dolmen@cpan.org>
+Olivier MenguE<eacute> <dolmen@cpan.org>
 
 =head1 SUPPORT
 
