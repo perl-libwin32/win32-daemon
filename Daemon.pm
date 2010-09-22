@@ -9,7 +9,7 @@ package Win32::Daemon;
 
 $PACKAGE = $Package = "Win32::Daemon";
 
-$VERSION = 20080324;
+$VERSION = 20100921;
 require Exporter;
 require DynaLoader;
 
@@ -1019,6 +1019,11 @@ Jan Dubois <jand@activestate.com>
 Marc Pijnappels <marc.pijnappels@nec-computers.com>
 
 Olivier Mengue <dolmen@cpan.org>
+
+=head1 SUPPORT
+
+Dave has retired from active development of this module.  It is now
+being maintained as part of the libwin32 project <libwin32@perl.org>.
 
 =head1 COPYRIGHT
 
