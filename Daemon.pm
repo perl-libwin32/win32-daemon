@@ -9,7 +9,7 @@ package Win32::Daemon;
 
 $PACKAGE = $Package = "Win32::Daemon";
 
-$VERSION = 20100921;
+$VERSION = 20101014;
 require Exporter;
 require DynaLoader;
 

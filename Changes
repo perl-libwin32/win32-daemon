@@ -117,4 +117,10 @@ HISTORY:
 	- Pruned out unnecessary stuff from Daemon.pm file.
 
 20091028 Olivier Mengue
-        -Disabled END {} in non-main threads to fix bug RT#50020
+        - Disabled END {} in non-main threads to fix bug RT#50020
+
+20101014 Jan Dubois
+	- minimal POD cleanup
+	- avoid CPAN indexing of the packages under test/
+	- QueryLastMessage() had been renamed to LastControlMessage().
+	  Rename it back to preserve backwards compatibility.
