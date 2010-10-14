@@ -2096,13 +2096,13 @@ State( ... )
 
 
 DWORD
-LastControlMessage( ... )
+QueryLastMessage( ... )
 
 	CODE:
 	{
 		if( 1 < items )
 		{
-			croak( "Usage: LastControlMessage( [$fResetMessage] )\n" );
+			croak( "Usage: QueryLastMessage( [$fResetMessage] )\n" );
 		}
 
 		if( ( 1 == items ) && ( 0 != SvIV( ST( 0 ) ) ) )
