@@ -124,3 +124,7 @@ HISTORY:
 	- avoid CPAN indexing of the packages under test/
 	- QueryLastMessage() had been renamed to LastControlMessage().
 	  Rename it back to preserve backwards compatibility.
+
+20110117 Jan Dubois
+	- make sure DllMain() has "C" linkage when compiled with MinGW
+	  (Haiko Strotbek). [rt#64575]

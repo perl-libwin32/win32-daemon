@@ -9,7 +9,7 @@ package Win32::Daemon;
 
 $PACKAGE = $Package = "Win32::Daemon";
 
-$VERSION = 20101014;
+$VERSION = 20110117;
 require Exporter;
 require DynaLoader;
 
@@ -1023,6 +1023,8 @@ will be most impacted as they will expect.
 Dave Roth, Roth Consulting, http://www.roth.net/
 
 =head1 CONTRIBUTORS
+
+Haiko Strotbek <haiko@strotbek.com>
 
 Jan Dubois <jand@activestate.com>
 

@@ -911,6 +911,9 @@ HANDLE CreateLog( LPCTSTR pszPath )
 
 /* ===============  DLL Specific  Functions  ===================  */
 //////////////////////////////////////////////////////////////////
+#if defined(__cplusplus)
+extern "C"
+#endif
 BOOL WINAPI DllMain( HINSTANCE  hinstDLL, DWORD fdwReason, LPVOID  lpvReserved )
 {
     BOOL    fResult = TRUE;

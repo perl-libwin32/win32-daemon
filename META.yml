@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name: Win32-Daemon
 abstract: Enabling Win32 Perl scripts to run as a true Win32 services.
-version: 20101014
+version: 20110117
 author:
   - Dave Roth
   - libwin32 project <libwin32@perl.org>
