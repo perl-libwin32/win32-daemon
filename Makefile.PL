@@ -17,7 +17,7 @@ my %param = (
     OBJECT        => 'CCallbackList$(OBJ_EXT) CCallbackTimer$(OBJ_EXT) Constant$(OBJ_EXT) CWinStation$(OBJ_EXT) Daemon$(OBJ_EXT) ServiceThread$(OBJ_EXT)',
     XS            => { 'Daemon.xs' => 'Daemon.cpp' },
 );
-$param{INC} .= ' -GX' if $Config{'cc'} =~ /^cl/i;
+$param{INC} .= ' -EHsc' if $Config{'cc'} =~ /^cl/i;
 $param{NO_META} = 1 if eval "$ExtUtils::MakeMaker::VERSION" >= 6.10_03;
 WriteMakefile(%param);
 
