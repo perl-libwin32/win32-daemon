@@ -44,7 +44,7 @@
 static SERVICE_TABLE_ENTRY gpServiceTable[] =
 {
     {
-        TEXT( "GROWL!" ), ServiceMain
+        (char*)TEXT( "GROWL!" ), ServiceMain
     },
     {
         NULL,   NULL
