@@ -111,7 +111,7 @@ int CCallbackTimer::SetTimerValue( int iNewTimerValue )
 	if( -1 < iNewTimerValue )
 	{
 		Stop();
-		m_TimerValue = (UINT_PTR) iNewTimerValue;
+		m_TimerValue = (UINT)iNewTimerValue;
 		//
 		//	Only start again if we were previously in the
 		//	started state.

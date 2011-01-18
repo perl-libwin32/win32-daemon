@@ -745,7 +745,7 @@ void CallPerlRoutine( pTHX_ CV* pPerlSubroutine, DWORD dwCommand, HV* pHvContext
 			//	so update the service's state. Specify waithint value of 0
 			//	and error value of 0xFFFFFFFF to use defaults.
 			//
-			DWORD dwNewState = SvIV( pSvReturn );
+                        DWORD dwNewState = (DWORD)SvIV( pSvReturn );
 			UpdateServiceStatus( dwNewState, 0, 0xFFFFFFFF );
 		}
 
@@ -1259,7 +1259,7 @@ StartService( ... )
 				if( 1 < items )
 				{
 					// Get the callback timer value...
-					uintCallbackTimerValue = SvIV( ST( 1 ) );
+                                        uintCallbackTimerValue = (int)SvIV( ST( 1 ) );
 				}
 
 				SV *pSv = ST( 0 );
@@ -1377,7 +1377,7 @@ CallbackTimer( ... )
 			//
 			//	Set the callback timer
 			//
-			gCallbackTimer = SvIV( ST( 0 ) );
+                        gCallbackTimer = (int)SvIV( ST( 0 ) );
 			
 			//
 			//	If we were already stopped then we need to manually start
@@ -1545,17 +1545,17 @@ CreateService( pSvServiceInfo )
 
 			if( HASH_KEY_EXISTS( pHv, KEYWORD_SERVICE_TYPE ) )
 			{
-				dwServiceType = HASH_GET_IV( pHv, KEYWORD_SERVICE_TYPE );
+                                dwServiceType = (DWORD)HASH_GET_IV( pHv, KEYWORD_SERVICE_TYPE );
 			}
 
 			if( HASH_KEY_EXISTS( pHv, KEYWORD_SERVICE_START_TYPE ) )
 			{
-				dwStartType = HASH_GET_IV( pHv, KEYWORD_SERVICE_START_TYPE );
+                                dwStartType = (DWORD)HASH_GET_IV( pHv, KEYWORD_SERVICE_START_TYPE );
 			}
 
 			if( HASH_KEY_EXISTS( pHv, KEYWORD_SERVICE_ERROR_CONTROL ) )
 			{
-				dwErrorControl = HASH_GET_IV( pHv, KEYWORD_SERVICE_ERROR_CONTROL );
+                                dwErrorControl = (DWORD)HASH_GET_IV( pHv, KEYWORD_SERVICE_ERROR_CONTROL );
 			}
 
 			OPEN_SERVICE_CONTROL_MANAGER( pszMachine )
@@ -1777,23 +1777,23 @@ ConfigureService( pSvServiceInfo )
 
 			if( HASH_KEY_EXISTS( pHv, KEYWORD_SERVICE_TAG_ID ) )
 			{
-				dwTagId = HASH_GET_IV( pHv, KEYWORD_SERVICE_TAG_ID );
+                                dwTagId = (DWORD)HASH_GET_IV( pHv, KEYWORD_SERVICE_TAG_ID );
 				pdwTagId = &dwTagId;
 			}
 
 			if( HASH_KEY_EXISTS( pHv, KEYWORD_SERVICE_TYPE ) )
 			{
-				dwServiceType = HASH_GET_IV( pHv, KEYWORD_SERVICE_TYPE );
+                                dwServiceType = (DWORD)HASH_GET_IV( pHv, KEYWORD_SERVICE_TYPE );
 			}
 
 			if( HASH_KEY_EXISTS( pHv, KEYWORD_SERVICE_START_TYPE ) )
 			{
-				dwStartType = HASH_GET_IV( pHv, KEYWORD_SERVICE_START_TYPE );
+                                dwStartType = (DWORD)HASH_GET_IV( pHv, KEYWORD_SERVICE_START_TYPE );
 			}
 
 			if( HASH_KEY_EXISTS( pHv, KEYWORD_SERVICE_ERROR_CONTROL ) )
 			{
-				dwErrorControl = HASH_GET_IV( pHv, KEYWORD_SERVICE_ERROR_CONTROL );
+                                dwErrorControl = (DWORD)HASH_GET_IV( pHv, KEYWORD_SERVICE_ERROR_CONTROL );
 			}
 
 			OPEN_SERVICE_CONTROL_MANAGER( pszMachine )
@@ -2067,24 +2067,24 @@ State( ... )
 				{
 					if( HASH_KEY_EXISTS( pHv, KEYWORD_STATE_STATE ) )
 					{
-        				dwState     = HASH_GET_IV( pHv, KEYWORD_STATE_STATE );
+                                                dwState     = (DWORD)HASH_GET_IV( pHv, KEYWORD_STATE_STATE );
 					}
 					if( HASH_KEY_EXISTS( pHv, KEYWORD_STATE_WAIT_HINT ) )
 					{
-						dwWaitHint  = HASH_GET_IV( pHv, KEYWORD_STATE_WAIT_HINT );
+                                                dwWaitHint  = (DWORD)HASH_GET_IV( pHv, KEYWORD_STATE_WAIT_HINT );
 					}
 					if( HASH_KEY_EXISTS( pHv, KEYWORD_STATE_ERROR ) )
 					{
-						dwError     = HASH_GET_IV( pHv, KEYWORD_STATE_ERROR );
+                                                dwError     = (DWORD)HASH_GET_IV( pHv, KEYWORD_STATE_ERROR );
 					}
 				}
 				else
 				{
-					dwState = SvIV( pSv );
+                                        dwState = (DWORD)SvIV( pSv );
 					if( 2 == items )
 					{
 						// Assume that the hint was in milliseconds
-						dwWaitHint = SvIV( ST( 1 ) );
+                                                dwWaitHint = (DWORD)SvIV( ST( 1 ) );
 					}
 				}
 				
@@ -2206,7 +2206,7 @@ Timeout( ... )
 
 		if( items )
 		{
-			gdwHandlerTimeout = SvIV( ST( 0 ) );
+                        gdwHandlerTimeout = (DWORD)SvIV( ST( 0 ) );
 		}
 		RETVAL = gdwHandlerTimeout;
 	}
@@ -2246,7 +2246,7 @@ AcceptedControls( ... )
 
 		if( 0 < items )
 		{
-			gdwControlsAccepted = SvIV( ST( 0 ) );
+                        gdwControlsAccepted = (DWORD)SvIV( ST( 0 ) );
 		}
 		RETVAL = gdwControlsAccepted;
 	}

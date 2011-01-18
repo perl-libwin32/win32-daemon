@@ -145,7 +145,7 @@ SetTimeoutTimer( 10 );
 
                 case WM_USER_SET_TIMER:
                     ALERT( "ServiceMain: Setting timer" );
-                    ghTimer = ::SetTimer( NULL, SERVICE_THREAD_TIMER_ID, Message.wParam * DEFAULT_HANDLER_TIMEOUT_SCALE, (TIMERPROC)TimerHandler );
+                    ghTimer = ::SetTimer( NULL, SERVICE_THREAD_TIMER_ID, (UINT)Message.wParam * DEFAULT_HANDLER_TIMEOUT_SCALE, (TIMERPROC)TimerHandler );
                     break;
 
 				case WM_QUIT:

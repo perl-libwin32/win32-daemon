@@ -165,7 +165,7 @@ extern DWORD     gdwState;
 extern DWORD     gdwTimeoutState;
 extern DWORD     gdwServiceType;
 extern DWORD     gdwControlsAccepted;
-extern DWORD     ghTimer;
+extern UINT_PTR  ghTimer;
 extern DWORD     gdwHandlerTimeout;
 extern DWORD     gdwLastControlMessage;
 extern HINSTANCE ghDLL;

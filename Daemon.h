@@ -197,7 +197,7 @@ DWORD	gdwControlsAccepted = SERVICE_ACCEPT_STOP
 
 DWORD	gdwServiceType = SERVICE_WIN32_OWN_PROCESS 
                          | SERVICE_INTERACTIVE_PROCESS;
-DWORD   ghTimer = 0;
+UINT_PTR ghTimer = 0;
 DWORD   gdwHandlerTimeout = DEFAULT_HANDLER_TIMEOUT_VALUE;
 DWORD   gdwLastControlMessage = SERVICE_START_PENDING;
 OSVERSIONINFO gsOSVerInfo;
