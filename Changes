@@ -128,3 +128,5 @@ HISTORY:
 20110117 Jan Dubois
 	- make sure DllMain() has "C" linkage when compiled with MinGW
 	  (Haiko Strotbek). [rt#64575]
+	- change StartService() and GetServiceHandle() to return proper
+	  64-bit value on Win64 (Haiko Strotbek). [rt#64577]

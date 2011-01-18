@@ -1214,7 +1214,7 @@ RegisterCallbacks( pSv )
 		RETVAL
 
 
-DWORD
+UV
 StartService( ... )
 
 	PREINIT:
@@ -1355,7 +1355,7 @@ StartService( ... )
 #endif // ENABLE_CALLBACKS
 		}
 
-		RETVAL = (DWORD) ghServiceThread;
+		RETVAL = PTR2UV(ghServiceThread);
 	}
 	
 	OUTPUT:
@@ -2216,7 +2216,7 @@ Timeout( ... )
 
 
 
-DWORD
+UV
 GetServiceHandle()
 
 	CODE:	
@@ -2226,7 +2226,7 @@ GetServiceHandle()
 			croak( TEXT( "Usage: " EXTENSION "::GetServiceHandle()\n" ) );
 		}
 
-		RETVAL = (DWORD) ghService;
+		RETVAL = PTR2UV(ghService);
 	}
 
 	OUTPUT:
