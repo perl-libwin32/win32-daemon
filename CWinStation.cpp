@@ -425,8 +425,8 @@ ALERT( "[CWinStation::AddSecurityPrivileges] Populating new DACL.\n" );
             }
         }
     }
-    delete [] pSd;    
-    delete [] pNewSd;
+    delete [] (BYTE*)pSd;    
+    delete [] (BYTE*)pNewSd;
 
     return( bResult );
 }
