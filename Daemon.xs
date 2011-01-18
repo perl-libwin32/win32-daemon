@@ -550,7 +550,7 @@ BOOL StoreServiceDescription( LPCTSTR pszMachine, LPCTSTR pszServiceName, LPCTST
         _stprintf( szBuffer, REGISTRY_SERVICE_PATH TEXT( "\\%s" ), pszServiceName );
         if( ERROR_SUCCESS == RegOpenKeyEx( hRoot, szBuffer, 0, KEY_SET_VALUE, &hKey ) )
         {
-            DWORD dwSize = _tcslen( pszDescription ) * sizeof( TCHAR );
+            DWORD dwSize = (DWORD)_tcslen( pszDescription ) * sizeof( TCHAR );
             fResult = ( ERROR_SUCCESS == RegSetValueEx( hKey, REGISTRY_SERVICE_KEYWORD_DESCRIPTION, 0, REG_SZ, (LPBYTE) pszDescription, dwSize ) );
         }
         RegCloseKey( hKey );

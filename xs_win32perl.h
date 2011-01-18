@@ -172,9 +172,9 @@
     }
 
     //  Delete a key from a hash: HASH_DELETE( pHash, szKeyName )
-    #define HASH_DELETE(x,y)            if( hv_exists( (HV*) (x), (LPTSTR)(y), _tcslen( (LPTSTR)(y) ) ) )                \
+#define HASH_DELETE(x,y)            if( hv_exists( (HV*) (x), (LPTSTR)(y), (I32)_tcslen( (LPTSTR)(y) ) ) ) \
                                         {                                                                               \
-		                                    hv_delete( (HV*) (x), (LPTSTR)(y), _tcslen( (LPTSTR)(y) ), G_DISCARD );      \
+                                                hv_delete( (HV*) (x), (LPTSTR)(y), (I32)_tcslen( (LPTSTR)(y) ), G_DISCARD ); \
 	                                    }
 
     // Store a hash (HV*) or array (AV*) into a hash. This will create a reference then store that
@@ -193,7 +193,7 @@
                                             SV* P_SV_TEMP = newRV_noinc( (SV*) (z) );                                       \
                                             if( NULL != P_SV_TEMP )                                                         \
                                             {                                                                               \
-                                                hv_store( (HV*) (x), (LPTSTR) (y), _tcslen( (LPTSTR) (y) ), P_SV_TEMP, 0 ); \
+                                                hv_store( (HV*) (x), (LPTSTR) (y), (I32)_tcslen( (LPTSTR) (y) ), P_SV_TEMP, 0 ); \
                                             }                                                                               \
                                         }
 
@@ -205,7 +205,7 @@
                                             SV* P_SV_TEMP = newRV( (SV*) (z) );                                             \
                                             if( NULL != P_SV_TEMP )                                                         \
                                             {                                                                               \
-                                                hv_store( (HV*) (x), (LPTSTR) (y), _tcslen( (LPTSTR) (y) ), P_SV_TEMP, 0 );    \
+                                                hv_store( (HV*) (x), (LPTSTR) (y), (I32)_tcslen( (LPTSTR) (y) ), P_SV_TEMP, 0 ); \
                                             }                                                                               \
                                         }
 
@@ -214,7 +214,7 @@
     //  You would normally call HASH_STORE_SV() which auto creates the reference for you.
     #define HASH_STORE_SVNOREF(x,y,z)   if( ( NULL != (x) ) && ( NULL != (y) ) && ( NULL != (z) ) )                         \
                                         {                                                                                   \
-                                            hv_store( (HV*) (x), (LPTSTR) (y), _tcslen( (LPTSTR) (y) ), (SV*)(z), 0 );      \
+                                            hv_store( (HV*) (x), (LPTSTR) (y), (I32)_tcslen( (LPTSTR) (y) ), (SV*)(z), 0 ); \
                                         }
 
     //  Store a data array into a hash (storing a string but specify the number of elements hence it can
@@ -224,11 +224,11 @@
                                             SV* P_SV_TEMP = newSVpv( (LPTSTR)(z), (int)(size) );                             \
                                             if( NULL != P_SV_TEMP )                                                         \
                                             {                                                                               \
-                                                hv_store( (HV*) (x), (LPTSTR) (y), _tcslen( (LPTSTR) (y) ), P_SV_TEMP, 0 );    \
+                                                hv_store( (HV*) (x), (LPTSTR) (y), (I32)_tcslen( (LPTSTR) (y) ), P_SV_TEMP, 0 ); \
                                             }                                                                               \
                                         } 
     //  Store a C string into a hash: HASH_STORE_PV( pHash, szKeyName, szString )
-    #define HASH_STORE_PV(x,y,z)        HASH_STORE_PNV(x,y,z, _tcslen( (LPTSTR)(z) ) )
+    #define HASH_STORE_PV(x,y,z)        HASH_STORE_PNV(x,y,z, (I32)_tcslen( (LPTSTR)(z) ) )
 
     //  Store a floating point number into a hash: HASH_STORE_NV( pHash, szKeyName, dFloatingPoint )
     #define HASH_STORE_NV(x,y)          if( ( NULL != (x) ) && ( NULL != (y) ) )                                            \
@@ -236,7 +236,7 @@
                                             SV* P_SV_TEMP = newSVnv( (NV)(z) );                                             \
                                             if( NULL != P_SV_TEMP )                                                         \
                                             {                                                                               \
-                                                hv_store( (HV*) (x), (LPTSTR) (y), _tcslen( (LPTSTR) (y) ), P_SV_TEMP, 0 );    \
+                                                hv_store( (HV*) (x), (LPTSTR) (y), (I32)_tcslen( (LPTSTR) (y) ), P_SV_TEMP, 0 ); \
                                             }                                                                               \
                                         } 
 
@@ -246,12 +246,12 @@
                                             SV* P_SV_TEMP = newSViv( (IV)(z) );                                             \
                                             if( NULL != P_SV_TEMP )                                                         \
                                             {                                                                               \
-                                                hv_store( (HV*) (x), (LPTSTR) (y), _tcslen( (LPTSTR) (y) ), P_SV_TEMP, 0 );    \
+                                                hv_store( (HV*) (x), (LPTSTR) (y), (I32)_tcslen( (LPTSTR) (y) ), P_SV_TEMP, 0 ); \
                                             }                                                                               \
                                         } 
     
     // Check that a hash key exists: HASH_KEY_EXISTS( pHash, szKeyName )
-    #define HASH_KEY_EXISTS(x,y)        ( 0 != hv_exists( (HV*)(x), (LPTSTR)(y), _tcslen( (LPTSTR)(y) ) ) )
+#define HASH_KEY_EXISTS(x,y)        ( 0 != hv_exists( (HV*)(x), (LPTSTR)(y), (I32)_tcslen( (LPTSTR)(y) ) ) )
 
     //  Define the inline hash extraction prototypes...
     const char *HashGetPV( pTHX_ HV *pHv, const char *pszKeyName );
@@ -305,9 +305,9 @@
         if( ( NULL == pszKeyName ) || ( NULL == pHv ) )
             return( NULL );
 
-        if( hv_exists( pHv, pszKeyName, _tcslen( pszKeyName ) ) )
+        if( hv_exists( pHv, pszKeyName, (I32)_tcslen( pszKeyName ) ) )
         {
-            pSv = (SV*) hv_fetch( pHv, pszKeyName, _tcslen( pszKeyName ), 0 );
+            pSv = (SV*) hv_fetch( pHv, pszKeyName, (I32)_tcslen( pszKeyName ), 0 );
             if( NULL != pSv )
             {
                 pSv = *(SV**) pSv;
