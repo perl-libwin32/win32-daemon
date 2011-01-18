@@ -81,13 +81,13 @@ enum eConstantType { NotDefined = 0, NotPresent, String, Numeric };
 #define DEFAULT_CALLBACK_TIMER          5000
 
 eConstantType Constant( LPTSTR pszConstant, LPVOID *ppBuffer );
-LPTSTR GetConstantName( DWORD dwIndex );
+const char *GetConstantName( DWORD dwIndex );
 DWORD GetTotalConstants();
 void CountConstants();
 
 typedef struct tagConstStruct
 {
-    LPTSTR m_Name;
+    const char *m_Name;
     LPVOID m_pBuffer;
     eConstantType m_eType;
 } ConstantStruct;
@@ -179,7 +179,7 @@ BOOL KillTimer();
 int My_SetServiceBits( SERVICE_STATUS_HANDLE hService, DWORD dwServiceBits, BOOL bSetBitsOn, BOOL bUpdateImmediately );
 BOOL GetProcessSid( HANDLE hProcess, SID *pSid, DWORD dwSidBufferSize );
 BOOL GetSidFromToken( HANDLE hToken, SID *pSid, DWORD dwSidBufferSize );
-BOOL SetPrivilege( HANDLE hToken, LPTSTR pszPrivilege, BOOL bSetFlag );
+BOOL SetPrivilege( HANDLE hToken, const char *pszPrivilege, BOOL bSetFlag );
 void TextFromSid( LPTSTR pszBuffer, SID *pSid );
 BOOL LoadProfile( SID *pSid );
 BOOL StoreServiceDescription( LPCTSTR pszMachine, LPCTSTR pszServiceName, LPCTSTR pszDescription );

@@ -186,9 +186,9 @@ eConstantType Constant( LPTSTR pszConstant, LPVOID *ppBuffer )
     return( eResult );
 }
 
-LPTSTR GetConstantName( DWORD dwIndex )
+const char *GetConstantName( DWORD dwIndex )
 {
-    LPTSTR pszBuffer = NULL;
+    const char *pszBuffer = NULL;
     if( gdwConstTotal > dwIndex )
     {
         pszBuffer = gsConst[ dwIndex ].m_Name;

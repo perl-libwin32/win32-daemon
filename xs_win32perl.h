@@ -254,13 +254,13 @@
     #define HASH_KEY_EXISTS(x,y)        ( 0 != hv_exists( (HV*)(x), (LPTSTR)(y), _tcslen( (LPTSTR)(y) ) ) )
 
     //  Define the inline hash extraction prototypes...
-    char *HashGetPV( pTHX_ HV *pHv, LPTSTR pszKeyName );
-    IV HashGetIV( pTHX_ HV *pHv, LPTSTR pszKeyName );
-    double HashGetNV( pTHX_ HV *pHv, LPTSTR pszKeyName );
-    SV *HashGetSV( pTHX_ HV *pHv, LPTSTR pszKeyName );
+    const char *HashGetPV( pTHX_ HV *pHv, const char *pszKeyName );
+    IV HashGetIV( pTHX_ HV *pHv, const char *pszKeyName );
+    double HashGetNV( pTHX_ HV *pHv, const char *pszKeyName );
+    SV *HashGetSV( pTHX_ HV *pHv, const char *pszKeyName );
 
     //  Now define the inline functions used by the hash macros
-    inline LPTSTR HashGetPV( pTHX_ HV *pHv, LPTSTR pszKeyName )
+    inline const char *HashGetPV( pTHX_ HV *pHv, const char *pszKeyName )
     {
         SV *pSv = HashGetSV( aTHX_ pHv, pszKeyName );
         if( NULL != pSv )
@@ -273,7 +273,7 @@
         }
     }
 
-    inline IV HashGetIV( pTHX_ HV *pHv, LPTSTR pszKeyName )
+    inline IV HashGetIV( pTHX_ HV *pHv, const char *pszKeyName )
     {
         SV *pSv = HashGetSV( aTHX_ pHv, pszKeyName );
         if( NULL != pSv )
@@ -286,7 +286,7 @@
         }
     }
 
-    inline double HashGetNV( pTHX_ HV *pHv, LPTSTR pszKeyName )
+    inline double HashGetNV( pTHX_ HV *pHv, const char *pszKeyName )
     {
         SV *pSv = HashGetSV( aTHX_ pHv, pszKeyName );
         if( NULL != pSv )
@@ -299,7 +299,7 @@
         }
     }
 
-    inline SV * HashGetSV( pTHX_ HV *pHv, LPTSTR pszKeyName )
+    inline SV * HashGetSV( pTHX_ HV *pHv, const char *pszKeyName )
     {
         SV *pSv = NULL;
         if( ( NULL == pszKeyName ) || ( NULL == pHv ) )

@@ -238,7 +238,7 @@ BOOL GetSidFromToken( HANDLE hToken, SID *pSid, DWORD dwSidBufferSize )
 // privilege, and a flag to either enable/disable that privilege. The
 // function will attempt to perform the desired action upon the token
 // returning TRUE if it succeeded, or FALSE if it failed.
-BOOL SetPrivilege( HANDLE hToken, LPTSTR pszPrivilege, BOOL bSetFlag )
+BOOL SetPrivilege( HANDLE hToken, const char *pszPrivilege, BOOL bSetFlag )
 {
     TOKEN_PRIVILEGES structPriv, structPrevPriv;
     LUID Luid;
@@ -1481,16 +1481,16 @@ CreateService( pSvServiceInfo )
 			TCHAR szBuffer[ MAX_PATH * 2 ];
 			TCHAR szBinaryPath[ MAX_PATH ];     
 			TCHAR szDependencies[ MAX_SERVICE_DEPENDENCY_BUFFER_SIZE ]; 
-			LPTSTR pszDepend =      szDependencies;
-			LPTSTR pszMachine =     HASH_GET_PV( pHv, KEYWORD_SERVICE_MACHINE );
-			LPTSTR pszServiceName = HASH_GET_PV( pHv, KEYWORD_SERVICE_NAME );
-			LPTSTR pszDisplayName = HASH_GET_PV( pHv, KEYWORD_SERVICE_DISPLAY_NAME );
-			LPTSTR pszUser =        HASH_GET_PV( pHv, KEYWORD_SERVICE_ACCOUNT_UID );
-			LPTSTR pszPwd =         HASH_GET_PV( pHv, KEYWORD_SERVICE_ACCOUNT_PWD );
-			LPTSTR pszBinaryPath =  HASH_GET_PV( pHv, KEYWORD_SERVICE_BINARY_PATH );
-			LPTSTR pszParameters =  HASH_GET_PV( pHv, KEYWORD_SERVICE_PARAMETERS );
-			LPTSTR pszDescription = HASH_GET_PV( pHv, KEYWORD_SERVICE_DESCRIPTION );
-			LPTSTR pszLoadOrder = NULL;
+			const char *pszDepend =      szDependencies;
+			const char *pszMachine =     HASH_GET_PV( pHv, KEYWORD_SERVICE_MACHINE );
+			const char *pszServiceName = HASH_GET_PV( pHv, KEYWORD_SERVICE_NAME );
+			const char *pszDisplayName = HASH_GET_PV( pHv, KEYWORD_SERVICE_DISPLAY_NAME );
+			const char *pszUser =        HASH_GET_PV( pHv, KEYWORD_SERVICE_ACCOUNT_UID );
+			const char *pszPwd =         HASH_GET_PV( pHv, KEYWORD_SERVICE_ACCOUNT_PWD );
+			const char *pszBinaryPath =  HASH_GET_PV( pHv, KEYWORD_SERVICE_BINARY_PATH );
+			const char *pszParameters =  HASH_GET_PV( pHv, KEYWORD_SERVICE_PARAMETERS );
+			const char *pszDescription = HASH_GET_PV( pHv, KEYWORD_SERVICE_DESCRIPTION );
+			const char *pszLoadOrder = NULL;
 			DWORD  dwTag = 0;
 			DWORD dwAccess = SERVICE_ALL_ACCESS;
 			DWORD dwServiceType = SERVICE_WIN32_OWN_PROCESS;
@@ -1598,8 +1598,8 @@ DeleteService( ... )
 	PREINIT:
 		HV *pHv = NULL;
 		BOOL fResult = FALSE;
-		LPTSTR pszServiceName = NULL;
-		LPTSTR pszMachine = TEXT( "" );
+		const char *pszServiceName = NULL;
+		const char *pszMachine = TEXT( "" );
 		DWORD dwIndex = 0;
 
 	CODE:
@@ -1663,16 +1663,16 @@ ConfigureService( pSvServiceInfo )
 			TCHAR szBuffer[ MAX_PATH * 2 ];
 			TCHAR szBinaryPath[ MAX_PATH ];
 			TCHAR szDependencies[ MAX_SERVICE_DEPENDENCY_BUFFER_SIZE ];
-			LPTSTR pszMachine = HASH_GET_PV( pHv, KEYWORD_SERVICE_MACHINE );
-			LPTSTR pszServiceName = NULL;
-			LPTSTR pszDisplayName = NULL;
-			LPTSTR pszUser =        NULL;
-			LPTSTR pszPwd =         NULL;
-			LPTSTR pszBinaryPath =  NULL;
-			LPTSTR pszParameters =  NULL;
-			LPTSTR pszLoadOrder =   NULL;
-			LPTSTR pszDepend =      NULL;
-			LPTSTR pszDescription = NULL;
+			const char *pszMachine = HASH_GET_PV( pHv, KEYWORD_SERVICE_MACHINE );
+			const char *pszServiceName = NULL;
+			const char *pszDisplayName = NULL;
+			const char *pszUser =        NULL;
+			const char *pszPwd =         NULL;
+			const char *pszBinaryPath =  NULL;
+			const char *pszParameters =  NULL;
+			const char *pszLoadOrder =   NULL;
+			const char *pszDepend =      NULL;
+			const char *pszDescription = NULL;
 			DWORD  dwTagId =        0;
 			DWORD  *pdwTagId =      NULL;
 			DWORD dwAccess =        SERVICE_ALL_ACCESS;
@@ -1760,7 +1760,8 @@ ConfigureService( pSvServiceInfo )
 				AV *pAv = NULL;
 				if( NULL != ( pAv = HASH_GET_AV( pHv, KEYWORD_SERVICE_DEPENDENCIES ) ) )
 				{
-					LPTSTR pszBuffer = pszDepend = szDependencies;
+					LPTSTR pszBuffer = szDependencies;
+					pszDepend = szDependencies;
 					// av_len() returns -1 if no entries. Otherwise it returns the 
 					// largest index number in the array.
 					DWORD dwCount = av_len( pAv ) + 1;
@@ -1860,8 +1861,8 @@ QueryServiceConfig( pSvServiceInfo )
 		{
 			TCHAR szServiceName[ 256 ];
 			TCHAR szMachineName[ 256 ];
-			LPTSTR pszServiceName = HASH_GET_PV( pHv, KEYWORD_SERVICE_NAME );
-			LPTSTR pszMachineName = HASH_GET_PV( pHv, KEYWORD_SERVICE_MACHINE );
+			const char *pszServiceName = HASH_GET_PV( pHv, KEYWORD_SERVICE_NAME );
+			const char *pszMachineName = HASH_GET_PV( pHv, KEYWORD_SERVICE_MACHINE );
 
 			// Copy the service name to a local buffer so we can clear out the
 			// hash...
@@ -2123,11 +2124,11 @@ QueryLastMessage( ... )
 
 BOOL
 ShowService( pszWindowStation = TEXT( "Winsta0" ), ... )
-	LPTSTR pszWindowStation
+	const char *pszWindowStation
 
 	PREINIT:
 		BOOL fResult;
-		LPTSTR pszDesktop = TEXT( "Default" );
+		const char *pszDesktop = TEXT( "Default" );
 
 	CODE:
 	{
@@ -2529,7 +2530,7 @@ GetSecurity( pszMachine, pszServiceName )
 
 
 
-LPTSTR
+const char *
 DebugOutputPath( ... )
 
 	CODE:

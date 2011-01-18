@@ -192,7 +192,7 @@ SetTimeoutTimer( 10 );
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 VOID WINAPI ServiceHandler( DWORD dwControl )
 {
-    LPTSTR pszCommand = SERVICE_CONTROL_STRING_EMPTY;
+    const char *pszCommand = SERVICE_CONTROL_STRING_EMPTY;
     DWORD dwState = gdwState;
     BOOL fUseTimer = FALSE;
 #ifdef _DEBUG
