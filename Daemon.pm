@@ -1099,7 +1099,7 @@ being maintained as part of the libwin32 project <libwin32@perl.org>.
 
 =head1 COPYRIGHT
 
-Copyright (C) 1998 - 2010 the Win32::Daemon L</AUTHOR> and L</CONTRIBUTORS>
+Copyright E<copy> 1998 - 2011 the Win32::Daemon L</AUTHOR> and L</CONTRIBUTORS>
 as listed above.
 
 =head1 LICENSE
