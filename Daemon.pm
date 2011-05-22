@@ -50,7 +50,7 @@ my $RECOGNIZED_CONTROLS;
     SERVICE_CONTROL_SESSIONCHANGE
     SERVICE_CONTROL_USER_DEFINED
     SERVICE_CONTROL_RUNNING
-    SERVICE_CONTROL_PRESHUTDOWN 
+    SERVICE_CONTROL_PRESHUTDOWN
     SERVICE_CONTROL_TIMER
     SERVICE_CONTROL_START
 
@@ -72,8 +72,8 @@ my $RECOGNIZED_CONTROLS;
 
     SERVICE_ACCEPT_STOP
     SERVICE_ACCEPT_PAUSE_CONTINUE
-    SERVICE_ACCEPT_SHUTDOWN    
-    SERVICE_ACCEPT_PARAMCHANGE  
+    SERVICE_ACCEPT_SHUTDOWN
+    SERVICE_ACCEPT_PARAMCHANGE
     SERVICE_ACCEPT_NETBINDCHANGE
 
     SERVICE_WIN32_OWN_PROCESS
@@ -100,11 +100,11 @@ my $RECOGNIZED_CONTROLS;
 
 
 @EXPORT_OK = qw(
-);      
+);
 
 bootstrap $Package;
 
-sub AUTOLOAD 
+sub AUTOLOAD
 {
     # This AUTOLOAD is used to 'autoload' constants from the constant()
     # XS function.  If a constant is not found then control is passed
@@ -128,7 +128,7 @@ sub AUTOLOAD
         # $Result == 1 if the constant is valid but not defined
         # that is, the extension knows that the constant exists but for
         # some wild reason it was not compiled with it.
-        $pack = 0; 
+        $pack = 0;
         ($pack,$file,$line) = caller;
         print "Your vendor has not defined $Package macro $constname, used in $file at line $line.";
     }
@@ -228,7 +228,7 @@ C<Timeout()>
 This function queries (and optionally sets) the current list of controls that the service registers for.
 By registering for a control the script is notifying the SCM that it is accepting the specified
 control messages. For example, if you specify the C<SERVICE_ACCEPT_PAUSE_CONTINUE> control then
-the SCM knows that the script will accept and process any attempt to pause and continue (resume 
+the SCM knows that the script will accept and process any attempt to pause and continue (resume
 from paused state) the service.
 
 Recognized accepted controls:
@@ -241,13 +241,13 @@ Recognized accepted controls:
 
 Following controls are only recognized on Windows 2000 and higher:
 
-    SERVICE_ACCEPT_PARAMCHANGE........The service accepts messages notifying it of any 
+    SERVICE_ACCEPT_PARAMCHANGE........The service accepts messages notifying it of any
                                       parameter change made to the service.
-    SERVICE_ACCEPT_NETBINDCHANGE......The service accepts messages notifying it of any 
+    SERVICE_ACCEPT_NETBINDCHANGE......The service accepts messages notifying it of any
                                       network binding changes.
 
 By default all of these controls are accepted. To change this pass in a value consisting of
-any of these values OR'ed together. 
+any of these values OR'ed together.
 
 B<NOTE> that you can query and set these controls at any time. However it is only supported to
 set them before you start the service (calling the C<StartService()> function).
@@ -259,8 +259,8 @@ This value indicates how often the "Running" callback subroutine will be called.
 that the calling of this routine will be blocked by any other callback.
 
 If you pass in a value it will reset the timer to the specified frequency. Passing in
-a 0 will disable all "Running" callbacks. Passing in -1 will toggle the state between 
-calling the "Running" callback subroutine and not calling it. 
+a 0 will disable all "Running" callbacks. Passing in -1 will toggle the state between
+calling the "Running" callback subroutine and not calling it.
 
 =item CreateService ( \%Hash )
 
@@ -282,12 +282,12 @@ registry key used to store the information on this service.
 The 'display' service name; that is, the name displayed
 by the services control panel or MMC plugin.
 
-=item path 
+=item path
 
 The full path name to the executable. This should be the path to your Perl
 executable, which will normally be the contents of $^X.
 
-B<NOTE:> If you are using a compiled perl script (such as one 
+B<NOTE:> If you are using a compiled perl script (such as one
 generated with PerlApp) as opposed to a text based perl script file then this
 value must point to the actual compiled script's executable (eg. MyCompiledPerlService.exe)
 instead of ($^X which usually points to perl.exe). You can specify
@@ -377,7 +377,7 @@ A running service may not be deleted.
 =item GetSecurity( $Machine, $ServiceName )
 
 This will return a binary Security Descriptor (SD) that is associated with the
-specified service on the specified machine. 
+specified service on the specified machine.
 
 The SD is in self-relative format. It can be imported into a Win32::Perms object using
 the Win32::Perms object's Import() method.
@@ -390,7 +390,7 @@ pause event then this routine will be called when there is an attempt to pause t
 service. Not all events must have callbacks registered.
 
 If only a reference to a subroutine is passed in then it will be called for each and every
-event. You can pass in a hash containing particular key names (listed below) with 
+event. You can pass in a hash containing particular key names (listed below) with
 code references.
 
 Possible hash key names:
@@ -415,7 +415,7 @@ Possible hash key names:
     power_event..............A power event has occured (eg change to battery power).
     session_change...........There has been a change in session.
     user_defined.............A user defined event has been sent to the service.
-    
+
 NOTE: The 'Stop' state. When a service calls into the registered "stop" callback routine
 the script should call the C<StopService()> function. This tells the service to terminate
 and return back to the Perl script. This is the only way for the service to know that it
@@ -424,7 +424,7 @@ must stop.
 Note: The 'Running' state. Periodically the extension will call into a registered
 "Running" subroutine. This allows the script to process data. This routine should be fast
 and return quickly otherwise it will block other callback events from being run. The
-frequency of calling the "Running" subroutine is dictated by the callback timer value 
+frequency of calling the "Running" subroutine is dictated by the callback timer value
 passed into C<StartService()> and any changes made to this value by calling into
 C<CallbackTimer()>.
 
@@ -454,7 +454,7 @@ than once it will only return the thread handle (it won't create another new ser
 =item Callback Mode
 
 If the script has already registered callback routines (using C<RegisterCallbacks()>) then
-the call into C<StartService()> will not return until the service has stopped. However 
+the call into C<StartService()> will not return until the service has stopped. However
 callbacks will be made for each state change and callback timer timeout (refer to C<RegisterCallbacks()>).
 
 =back
@@ -475,7 +475,7 @@ This function returns the last message that the service manager has sent to the 
 Pass in a non zero value to reset the pending message to C<SERVICE_CONTROL_NONE>. This way
 your script can tell when two of the same messages come in.
 
-Occasionally the service manager will send messages to the service. These messages 
+Occasionally the service manager will send messages to the service. These messages
 typically request the service to change from one state to another.  It is important that
 the Perl script responds to each message otherwise the service manager becomes confused
 about the current state of the service. For example, if the service manager is submits
@@ -493,11 +493,11 @@ Possible values returned are:
                                       This results in State() reporting SERVICE_STOP_PENDING.
     SERVICE_CONTROL_PAUSE.............The SCM is requesting the service to pause.
                                       This results in State() reporting SERVICE_PAUSE_PENDING.
-    SERVICE_CONTROL_CONTINUE..........The SCM is requesting the service to continue from a 
+    SERVICE_CONTROL_CONTINUE..........The SCM is requesting the service to continue from a
                                       paused state.
                                       This results in State() reporting SERVICE_CONTINUE_PENDING.
     SERVICE_CONTROL_INTERROGATE.......The service manager is querying the service's state
-    
+
     SERVICE_CONTROL_USER_DEFINED......This is a user defined control. There are 127 of these
                                       beginning with SERVICE_CONTROL_USER_DEFINED as the base.
     Windows 2000 specific messages:
@@ -515,7 +515,7 @@ Possible values returned are:
     SERVICE_CONTROL_HARDWAREPROFILECHANGE..A change has been made to the system's hardware profile.
     SERVICE_CONTROL_POWEREVENT........A power event has occured (eg change to battery power).
     SERVICE_CONTROL_SESSIONCHANGE.....There has been a change in session.
- 
+
     Windows Vista + specific messages:
     SERVICE_CONTROL_PRESHUTDOWN ......The machine is about to shut down. This provides the service
                                       much more time to shutdown than SERVICE_CONTROL_SHUTDOWN.
@@ -525,8 +525,8 @@ Possible values returned are:
 B<Note:> When the system shuts down it will send a C<SERVICE_CONTROL_SHUTDOWN> message. The
 Perl script has approximately 20 seconds to perform any shutdown activities before the
 Control Manger stops the service. If more time is needed call the C<State()> function
-passing in the C<SERVICE_STOP_PENDING> control message along with how many seconds it will 
-take to shutdown the service. This time value is only an estimate. When the service is 
+passing in the C<SERVICE_STOP_PENDING> control message along with how many seconds it will
+take to shutdown the service. This time value is only an estimate. When the service is
 finally ready to stop it must submit the C<SERVICE_STOPPED> message as in:
 
     if( SERVICE_CONTROL_SHUTDOWN == State() )
@@ -549,7 +549,7 @@ if your service script reports a hint of 30,000 milliseconds means that the SCM 
 for 30 seconds for the script to change the service's state before deciding that the
 script is non responsive.
 
-If you are setting/updating the state instead of passing in the state and wait hint you could 
+If you are setting/updating the state instead of passing in the state and wait hint you could
 pass in a hash reference. This allows you to specify the state, wait hint and error state. You
 can use the following keys:
 
@@ -557,7 +557,7 @@ can use the following keys:
     --------
     state..........Valid service state (see table below).
     waithint.......A wait hint explained above. This is in milliseconds.
-    error..........Any 32 bit error code. This is what will be reported if an application 
+    error..........Any 32 bit error code. This is what will be reported if an application
                    queries the error state of the service. It is also what is reported if
                    a call to start the services fails.
                    To reset an error state pass in NO_ERROR.
@@ -576,7 +576,7 @@ Possible values returned (or submitted):
 	---------------------
     SERVICE_NOT_READY..........The SCM has not yet been initialized. If the SCM is slow or busy
                                then this value will result from a call to State().
-                               If you get this value, just keep calling State() until you get 
+                               If you get this value, just keep calling State() until you get
                                SERVICE_START_PENDING.
     SERVICE_STOPPED............The service is stopped
     SERVICE_RUNNING............The service is running
@@ -592,15 +592,15 @@ Possible values returned (or submitted):
 
 Callbacks were introduced in version v20030617.
 
-The Win32::Daemon supports the concept of event callbacks. This allows a script to 
+The Win32::Daemon supports the concept of event callbacks. This allows a script to
 register a particular subroutine with a particular event. When the event occurs it
 will call the Perl subroutine registered with that event. This can make it very simple
 to write scripts.
 
 You register a callback subroutine by calling into the C<RegisterCallbacks()> function.
 You can pass in a code reference or a hash. A code reference will register the specified
-subroutine with all events. A hash allows you to pick which events you want to 
-register for which subroutines. You do not have to register all events. If an event is 
+subroutine with all events. A hash allows you to pick which events you want to
+register for which subroutines. You do not have to register all events. If an event is
 not registered for a subroutine then the script will not be notified when the event
 occurs.
 
@@ -614,14 +614,14 @@ example is the 'Pause' state should call C<State( SERVICE_PAUSED )> to inform th
 that it is offically paused.
 
 Once callback subroutines are registered the script enters the service mode by calling
-C<StartService()>. This will being the process of calling the event callback routines. 
-Note that when callback routines are registered the C<StartService()> function will not 
+C<StartService()>. This will being the process of calling the event callback routines.
+Note that when callback routines are registered the C<StartService()> function will not
 return until a callback routine calls C<StopService()> (typically the 'Stop' event callback
 would call C<StopService()>.
 
 When calling into C<StartService()> you can pass in a hash reference. This reference is known as
 a "context" hash. For every callback the hash will be passed into the callback routine. This enables
-a script to query and set data in the hash--essentially letting you pass information across to 
+a script to query and set data in the hash--essentially letting you pass information across to
 different callback events. This context hash is not required.
 
 When a callback is made it always passes two parameters in: $State and $Context. $State is simply
@@ -635,9 +635,9 @@ A typical callback routine should look similar to:
     {
         my( $Event, $Context ) = @_;
         $Context->{last_event} = $Event;
-        
+    
         # ...do some work here...
-        
+    
         # Tell the service manager that we have now
         # entered the running state.
         Win32::Daemon::State( SERVICE_RUNNING );
@@ -650,31 +650,31 @@ Refer to C<Example 4: Using a single callback> and C<Example 5: Using different 
 =head1 Compiled Perl Applications
 
 Many users like to compile their perl scripts into executable programs. This way it is much easier to copy them around
-from machine to machine since all necessary files, packages and binaries are compiled into one .exe file. These compiled 
+from machine to machine since all necessary files, packages and binaries are compiled into one .exe file. These compiled
 perl scripts are compatible with Win32::Deamon as long as you install it correctly.
 
-If you are going to compile your Win32::Daemon based perl script into an .exe there is nothing unique you need to do 
+If you are going to compile your Win32::Daemon based perl script into an .exe there is nothing unique you need to do
 to your Win32::Daemon code with one single exception of the call into Win32::Daemon::C<CreateService()>. When passing in
 the 'path' and 'parameters' values into C<CreateService()> observe the following simple rules:
 
 =over 4
 
     1) If using a Perl script
-      path........The full path to the Perl interpeter (perl.exe). 
+      path........The full path to the Perl interpeter (perl.exe).
                   This is typically:
                      c:\perl\bin\perl.exe
-             
-      parameter...This value MUST start with the full path to the 
+    
+      parameter...This value MUST start with the full path to the
                   perl script file and append any parameters
                   that you want passed into the service. For
                   example:
                   c:\scripts\myPerlService.pl -param1 -param2 "c:\\Param2Path"
     
     2) If using a compiled Perl application
-      path........The full path to the compiled Perl application. 
+      path........The full path to the compiled Perl application.
                   For example:
                   c:\compiledscripts\myPerlService.exe
-             
+    
       parameter...This value is just the list of  parameters
                   that you want passed into the service. For
                   example:
@@ -760,7 +760,7 @@ This particular example does not really illustrate the capabilities of a Perl ba
     {
       # The service is running as normal...
       # ...add the main code here...
-	  
+    
     }
     else
     {
@@ -798,17 +798,17 @@ This particular example does not really illustrate the capabilities of a Perl ba
 
 =head2 Example 3: Install the service
 
-For the 'path' key the $^X equates to the full path of the 
+For the 'path' key the $^X equates to the full path of the
 perl executable.
 Since no user is specified it defaults to the LocalSystem.
 
-    use Win32::Daemon; 
-    # If using a compiled perl script (eg. myPerlService.exe) then 
+    use Win32::Daemon;
+    # If using a compiled perl script (eg. myPerlService.exe) then
     # $ServicePath must be the path to the .exe as in:
     #    $ServicePath = 'c:\CompiledPerlScripts\myPerlService.exe';
     # Otherwise it must point to the Perl interpreter (perl.exe) which
     # is conviently provided by the $^X variable...
-    my $ServicePath = $^X; 
+    my $ServicePath = $^X;
     
     # If using a compiled perl script then $ServiceParams
     # must be the parameters to pass into your Perl service as in:
@@ -862,15 +862,15 @@ have to do essentially the same thing that the main while loop in C<Example 2> d
     sub CallbackRoutine
     {
         my( $Event, $Context ) = @_;
-        
+    
         $Context->{last_event} = $Event;
         if( SERVICE_RUNNING == $Event )
         {
             # ... process your main stuff here...
             # ... note that here there is no need to
             #     change the state
-            
-        }    
+    
+        }
         elsif( SERVICE_START_PENDING == $Event )
         {
             # Initialization code
@@ -894,7 +894,7 @@ have to do essentially the same thing that the main while loop in C<Example 2> d
         {
             $Context->{last_state} = SERVICE_STOPPED;
             Win32::Daemon::State( SERVICE_STOPPED );
-            
+    
             # We need to notify the Daemon that we want to stop callbacks and the service.
             Win32::Daemon::StopService();
         }
@@ -932,10 +932,10 @@ have to do essentially the same thing that the main while loop in C<Example 2> d
     sub Callback_Running
     {
         my( $Event, $Context ) = @_;
-        
+    
         # Note that here you want to check that the state
         # is indeed SERVICE_RUNNING. Even though the Running
-        # callback is called it could have done so before 
+        # callback is called it could have done so before
         # calling the "Start" callback.
         if( SERVICE_RUNNING == Win32::Daemon::State() )
         {
@@ -943,7 +943,7 @@ have to do essentially the same thing that the main while loop in C<Example 2> d
             # ... note that here there is no need to
             #     change the state
         }
-    }    
+    }
 
     sub Callback_Start
     {
@@ -974,7 +974,7 @@ have to do essentially the same thing that the main while loop in C<Example 2> d
         my( $Event, $Context ) = @_;
         $Context->{last_state} = SERVICE_STOPPED;
         Win32::Daemon::State( SERVICE_STOPPED );
-        
+    
         # We need to notify the Daemon that we want to stop callbacks and the service.
         Win32::Daemon::StopService();
     }
@@ -985,7 +985,7 @@ have to do essentially the same thing that the main while loop in C<Example 2> d
 
 Starting with build 20080321 the "running" callback is deprecated and replaced with the
 "timer" callback. Scripts should no longer test for a state of SERVICE_RUNNING but instead check
-for the state of SERVICE_CONTROL_TIMER to indicate whether or not a callback has occurred 
+for the state of SERVICE_CONTROL_TIMER to indicate whether or not a callback has occurred
 due to a timer.
 If a script...
 
@@ -995,11 +995,11 @@ If a script...
 
 ...registers for the "running" callback it will continue to work
 as expected: timer expiration results in a callback to the subroutine registered for the "running"
-callback passing in a value of SERVICE_RUNNING. 
+callback passing in a value of SERVICE_RUNNING.
 
 =item *
 
-...registers for the "timer" callback then timer expiration results in a callback to the 
+...registers for the "timer" callback then timer expiration results in a callback to the
 subroutine registered for the "timer" callback, passing in a value of SREVICE_CONTROL_TIMER.
 
 =item *
