@@ -249,7 +249,7 @@ Following controls are only recognized on Windows 2000 and higher:
 By default all of these controls are accepted. To change this pass in a value consisting of
 any of these values OR'ed together.
 
-B<NOTE> that you can query and set these controls at any time. However it is only supported to
+B<NOTE:> You can query and set these controls at any time. However it is only supported to
 set them before you start the service (calling the C<StartService()> function).
 
 =item CallbackTimer( [ $NewTimerValue ] )
@@ -262,103 +262,111 @@ If you pass in a value it will reset the timer to the specified frequency. Passi
 a 0 will disable all "Running" callbacks. Passing in -1 will toggle the state between
 calling the "Running" callback subroutine and not calling it.
 
-=item CreateService ( \%Hash )
+=item CreateService ( \%ServiceInfo )
 
-This function creates a new service. The return is TRUE if the service was
-created, and FALSE otherwise. If an error occurred, call GetLastError
-to retrieve the actual error code.
+This function creates a new service in the system configuration. The
+return is TRUE if the service was created, and FALSE otherwise. If an error
+occurred, call GetLastError to retrieve the actual error code.
 
 The hash describes the service to be created. The keys are:
 
 =over 4
 
-=item name
+=item C<name>
 
 The 'internal' service name; that is, the name of the
 registry key used to store the information on this service.
 
-=item display
+=item C<display>
 
 The 'display' service name; that is, the name displayed
 by the services control panel or MMC plugin.
 
-=item path
+=item C<path>
 
 The full path name to the executable. This should be the path to your Perl
-executable, which will normally be the contents of $^X.
+executable, which will normally be the contents of C<$^X>.
 
 B<NOTE:> If you are using a compiled perl script (such as one
 generated with PerlApp) as opposed to a text based perl script file then this
-value must point to the actual compiled script's executable (eg. MyCompiledPerlService.exe)
-instead of ($^X which usually points to perl.exe). You can specify
-any parameters to pass into the service using the "parameters" key.
+value must point to the actual compiled script's executable (eg. F<MyCompiledPerlService.exe>)
+instead of (C<$^X> which usually points to F<perl.exe>). You can specify
+any parameters to pass into the service using the C<parameters> key.
 
-=item user
+=item C<user>
 
 The username the service is to run under; this is optional.
 
-=item password
+=item C<password>
 
 The password to be used to log in the service; this is
-technically optional, but needs to be specified if {user} is.
+technically optional, but needs to be specified if C<user> is.
 
-=item parameters
+=item C<parameters>
 
 The parameters to be passed to Perl; in other words, the command line you
-would execute interactively, but without the leading ``perl ''. The 'parameters' key
-value is appended to the "path" key when starting the service.
+would execute interactively, but without the leading ``perl ''. The C<parameters> key
+value is appended to the C<path> key when starting the service.
 Typically this will be something like:
 
-    <code>MyPerlScript.pl /a /b /c</code>
+    MyPerlScript.pl /a /b /c
 
 
-=item machine
+=item C<machine>
 
 The name of the machine to create the service on. Omission
 or an empty string specify the machine executing the call.
 
-=item service_type
+=item C<service_type>
 
 An integer representing the type of the service;
 defaults to C<SERVICE_WIN32_OWN_PROCESS>.
 
-=item start_type
+=item C<start_type>
 
 An integer specifying how (or whether) the service is
 to be started. The default is C<SERVICE_AUTO_START>.
 
-=item error_control
+=item C<error_control>
 
 An integer specifying how the Service Control Manager
 is to react if the service fails to start. The default is
 C<SERVICE_ERROR_IGNORE>, which in fact gets you an error log entry.
 
-=item load_order
+=item C<load_order>
 
 The name of the load order group of which this service
 is a member. The default is membership in no group. See value
-ServiceGroupOrder in registry key
-HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control
+C<ServiceGroupOrder> in registry key
+C<HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control>
 for the names.
 
-=item tag_id
+=item C<tag_id>
 
 An integer representing the startup order of the service
 within its load ordering group.
 
-=item dependencies
+=item C<dependencies>
 
-A reference to the 'internal' names of services and/or
+A reference to the I<internal> names of services and/or
 load ordering groups upon which this service depends. The default is
 no dependencies. Load order group names are prefixed with a '+' to
 distinguish them from service names.
 
-=item description
+=item C<description>
 
 A short text description of the service, displayed
 (at least) as flyover help by the MMC "services" plugin.
 
 =back
+
+=item ConfigureService( \%ServiceInfo )
+
+Modify a service created with C<CreateService>. Same arguments as
+C<CreateService>.
+
+If you specify a C<parameters> key you MUST specify a C<path> key.
+
 
 =item DeleteService ($Machine, $ServiceName )
 
@@ -368,10 +376,9 @@ GetLastError to retrieve the actual error code.
 
 The arguments are the name of the machine (an empty string specifies
 the machine executing the call), and the 'internal' service name (i.e.
-the string passed in the {name} element when the service was created).
+the string passed in the C<name> element when the service was created).
 
 A running service may not be deleted.
-
 
 
 =item GetSecurity( $Machine, $ServiceName )
@@ -379,14 +386,14 @@ A running service may not be deleted.
 This will return a binary Security Descriptor (SD) that is associated with the
 specified service on the specified machine.
 
-The SD is in self-relative format. It can be imported into a Win32::Perms object using
-the Win32::Perms object's Import() method.
+The SD is in self-relative format. It can be imported into a C<L<Win32::Perms>> object using
+the C<Win32::Perms> object's C<Import()> method.
 
 =item RegisterCallbacks( $CodeRef | \%Hash )
 
 This will register specified code subroutines that will be called when specified
-events take place. For example if you register a subroutine called Pause() with the
-pause event then this routine will be called when there is an attempt to pause the
+events take place. For example if you register a subroutine with the
+C<pause> event then this routine will be called when there is an attempt to pause the
 service. Not all events must have callbacks registered.
 
 If only a reference to a subroutine is passed in then it will be called for each and every
@@ -416,17 +423,27 @@ Possible hash key names:
     session_change...........There has been a change in session.
     user_defined.............A user defined event has been sent to the service.
 
-NOTE: The 'Stop' state. When a service calls into the registered "stop" callback routine
+B<NOTES:>
+
+=over 4
+
+=item The C<Stop> state
+
+When a service calls into the registered "stop" callback routine
 the script should call the C<StopService()> function. This tells the service to terminate
 and return back to the Perl script. This is the only way for the service to know that it
 must stop.
 
-Note: The 'Running' state. Periodically the extension will call into a registered
+=item The C<Running> state
+
+Periodically the extension will call into a registered
 "Running" subroutine. This allows the script to process data. This routine should be fast
 and return quickly otherwise it will block other callback events from being run. The
 frequency of calling the "Running" subroutine is dictated by the callback timer value
 passed into C<StartService()> and any changes made to this value by calling into
 C<CallbackTimer()>.
+
+=back
 
 =item SetSecurity( $Machine, $ServiceName, $BinarySD | $Win32PermsObject )
 
@@ -486,8 +503,8 @@ You can update the service manager with the current status using the C<State()> 
 
 Possible values returned are:
 
-    Valid Service Control Messages:
-	-------------------------------
+    Valid Service Control Messages
+    ------------------------------
     SERVICE_CONTROL_NONE..............No message is pending.
     SERVICE_CONTROL_STOP..............The SCM is requesting the service to stop.
                                       This results in State() reporting SERVICE_STOP_PENDING.
@@ -565,15 +582,15 @@ can use the following keys:
 
 Example of passing in an error:
 
-  Win32::Daemon::State( { error => 0x12345678 } );
-  # Later to reset the error:
-  Win32::Daemon::State( { error => NO_ERROR } );
+    Win32::Daemon::State( { error => 0x12345678 } );
+    # Later to reset the error:
+    Win32::Daemon::State( { error => NO_ERROR } );
 
 
 Possible values returned (or submitted):
 
-	Valid Service States:
-	---------------------
+    Valid Service States
+    --------------------
     SERVICE_NOT_READY..........The SCM has not yet been initialized. If the SCM is slow or busy
                                then this value will result from a call to State().
                                If you get this value, just keep calling State() until you get
@@ -685,7 +702,7 @@ the 'path' and 'parameters' values into C<CreateService()> observe the following
 Refer to C<Example 3: Install the service> for an example.
 
 
-=head1 Examples
+=head1 EXAMPLES
 
 =head2 Example 1: Simple Service
 
@@ -818,7 +835,7 @@ Since no user is specified it defaults to the LocalSystem.
     my $ServiceParams = 'c:\perl\scripts\myPerlService.pl -param1 -param2 "c:\\Param2Path"';
     
     
-    %Hash = (
+    my %service_info = (
         machine =>  '',
         name    =>  'PerlTest',
         display =>  'Oh my GOD, Perl is a service!',
@@ -828,7 +845,7 @@ Since no user is specified it defaults to the LocalSystem.
         description => 'Some text description of this service',
         parameters => $ServiceParams
     );
-    if( Win32::Daemon::CreateService( \%Hash ) )
+    if( Win32::Daemon::CreateService( \%service_info ) )
     {
         print "Successfully added.\n";
     }
@@ -836,11 +853,6 @@ Since no user is specified it defaults to the LocalSystem.
     {
         print "Failed to add service: " . Win32::FormatMessage( Win32::Daemon::GetLastError() ) . "\n";
     }
-
-NOTES:
-    - ConfigureService:
-        - If you specify a 'parameters' key you MUST specify a 'path' key.
-
 
 =head2 Example 4: Using a single callback
 
@@ -979,7 +991,7 @@ have to do essentially the same thing that the main while loop in C<Example 2> d
         Win32::Daemon::StopService();
     }
 
-=head1 NOTES:
+=head1 NOTES
 
 =head2 Timer/Running Callbacks:
 
@@ -987,6 +999,7 @@ Starting with build 20080321 the "running" callback is deprecated and replaced w
 "timer" callback. Scripts should no longer test for a state of SERVICE_RUNNING but instead check
 for the state of SERVICE_CONTROL_TIMER to indicate whether or not a callback has occurred
 due to a timer.
+
 If a script...
 
 =over 4
@@ -1017,6 +1030,10 @@ then both "running" and "timer" are registered and only "timer" is recognized (s
 
 Legacy scripts which call Win32::Daemon::Callback() passing in only one catchall subroutine reference
 will be most impacted as they will expect.
+
+=head1 SEE ALSO
+
+L<MSDN: I<Service Functions>|http://msdn.microsoft.com/fr-fr/library/ms685942%28v=VS.85%29.aspx>
 
 =head1 AUTHOR
 
