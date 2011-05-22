@@ -233,18 +233,23 @@ from paused state) the service.
 
 Recognized accepted controls:
 
-    SERVICE_ACCEPT_STOP...............The service accepts messages to stop.
-    SERVICE_ACCEPT_PAUSE_CONTINUE.....The service accepts messages to pause and continue.
-    SERVICE_ACCEPT_SHUTDOWN...........The service accepts messages to shutdown the system.
-                                      When the OS is shutting down the service will be notified
-                                      when it has accepted this control.
+    SERVICE_ACCEPT_STOP............The service accepts messages to stop.
+    SERVICE_ACCEPT_PAUSE_CONTINUE..The service accepts messages to pause
+                                   and continue.
+    SERVICE_ACCEPT_SHUTDOWN........The service accepts messages to
+                                   shutdown the system: when the OS is
+                                   shutting down the service will be
+                                   notified when it has accepted this
+                                   control.
 
 Following controls are only recognized on Windows 2000 and higher:
 
-    SERVICE_ACCEPT_PARAMCHANGE........The service accepts messages notifying it of any
-                                      parameter change made to the service.
-    SERVICE_ACCEPT_NETBINDCHANGE......The service accepts messages notifying it of any
-                                      network binding changes.
+    SERVICE_ACCEPT_PARAMCHANGE.....The service accepts messages
+                                   notifying it of any parameter change
+                                   made to the service.
+    SERVICE_ACCEPT_NETBINDCHANGE...The service accepts messages
+                                   notifying it of any network binding
+                                   changes.
 
 By default all of these controls are accepted. To change this pass in a value consisting of
 any of these values OR'ed together.
@@ -406,22 +411,29 @@ Possible hash key names:
     -------------            --------------------------------------
     start....................The service is starting.
     pause....................The service is entering a paused state.
-    continue.................The service is resuming from a paused state.
+    continue.................The service is resuming from a paused
+                             state.
     stop.....................The service is stopping (see note below).
     running..................The service is running (see note below).
-    interrogate..............The service is being queried for information.
+    interrogate..............The service is being queried for
+                             information.
     shutdown.................The system is being shut down.
-    preshutdown..............The system is about to begin shutting down (Vista+ only).
-    param_change.............There has been a parameter change to the system.
+    preshutdown..............The system is about to begin shutting
+                             down (Vista+ only).
+    param_change.............There has been a parameter change to
+                             the system.
     net_bind_add.............A new network binding has been made.
     net_bind_remove..........A network binding has been removed.
     net_bind_enable..........A network binding has been enabled.
     net_bind_disable.........A network binding has been disabled.
     device_event.............A device has generated some event.
-    hardware_profile_change..A change has been made to the system's hardware profile.
-    power_event..............A power event has occured (eg change to battery power).
+    hardware_profile_change..A change has been made to the system's
+                             hardware profile.
+    power_event..............A power event has occured (eg change to
+                             battery power).
     session_change...........There has been a change in session.
-    user_defined.............A user defined event has been sent to the service.
+    user_defined.............A user defined event has been sent to
+                             the service.
 
 B<NOTES:>
 
@@ -505,37 +517,53 @@ Possible values returned are:
 
     Valid Service Control Messages
     ------------------------------
-    SERVICE_CONTROL_NONE..............No message is pending.
-    SERVICE_CONTROL_STOP..............The SCM is requesting the service to stop.
-                                      This results in State() reporting SERVICE_STOP_PENDING.
-    SERVICE_CONTROL_PAUSE.............The SCM is requesting the service to pause.
-                                      This results in State() reporting SERVICE_PAUSE_PENDING.
-    SERVICE_CONTROL_CONTINUE..........The SCM is requesting the service to continue from a
-                                      paused state.
-                                      This results in State() reporting SERVICE_CONTINUE_PENDING.
-    SERVICE_CONTROL_INTERROGATE.......The service manager is querying the service's state
+    SERVICE_CONTROL_NONE............No message is pending.
+    SERVICE_CONTROL_STOP............The SCM is requesting the service to
+                                    stop. This results in State()
+                                    reporting SERVICE_STOP_PENDING.
+    SERVICE_CONTROL_PAUSE...........The SCM is requesting the service to
+                                    pause. This results in State()
+                                    reporting SERVICE_PAUSE_PENDING.
+    SERVICE_CONTROL_CONTINUE........The SCM is requesting the service to
+                                    continue from a paused state. This
+                                    results in State() reporting
+                                    SERVICE_CONTINUE_PENDING.
+    SERVICE_CONTROL_INTERROGATE.....The service manager is querying the
+                                    service's state
+    
+    SERVICE_CONTROL_USER_DEFINED....This is a user defined control.
+                                    There are 127 of these beginning
+                                    with SERVICE_CONTROL_USER_DEFINED
+                                    as the base.
 
-    SERVICE_CONTROL_USER_DEFINED......This is a user defined control. There are 127 of these
-                                      beginning with SERVICE_CONTROL_USER_DEFINED as the base.
-    Windows 2000 specific messages:
-    SERVICE_CONTROL_SHUTDOWN..........The machine is shutting down. This indicates that
-                                      the service has roughly 20 seconds to clean up
-                                      and terminate. This time can be extended by
-                                      submitting SERVICE_STOP_PENDING via the State() function.
+Windows 2000 specific messages:
 
-    SERVICE_CONTROL_PARAMCHANGE.......Service parameters have been modified.
-    SERVICE_CONTROL_NETBINDADD........A network binding as been added.
-    SERVICE_CONTROL_NETBINDREMOVE.....A network binding has been removed.
-    SERVICE_CONTROL_NETBINDENABLE.....A network binding has been enabled.
-    SERVICE_CONTROL_NETBINDDISABLE....A network binding has been disabled.
-    SERVICE_CONTROL_DEVICEEVENT.......A device has generated some event.
-    SERVICE_CONTROL_HARDWAREPROFILECHANGE..A change has been made to the system's hardware profile.
-    SERVICE_CONTROL_POWEREVENT........A power event has occured (eg change to battery power).
-    SERVICE_CONTROL_SESSIONCHANGE.....There has been a change in session.
+    SERVICE_CONTROL_SHUTDOWN........The machine is shutting down. This
+                                    indicates that the service has
+                                    roughly 20 seconds to clean up and
+                                    terminate. This time can be extended
+                                    by submitting SERVICE_STOP_PENDING
+                                    via the State() function.
+    SERVICE_CONTROL_PARAMCHANGE.....Service parameters have been
+                                    modified.
+    SERVICE_CONTROL_NETBINDADD......A network binding as been added.
+    SERVICE_CONTROL_NETBINDREMOVE...A network binding has been removed.
+    SERVICE_CONTROL_NETBINDENABLE...A network binding has been enabled.
+    SERVICE_CONTROL_NETBINDDISABLE..A network binding has been disabled.
+    SERVICE_CONTROL_DEVICEEVENT.....A device has generated some event.
+    SERVICE_CONTROL_HARDWAREPROFILECHANGE
+                                    A change has been made to the
+                                    system's hardware profile.
+    SERVICE_CONTROL_POWEREVENT......A power event has occured (eg change
+                                    to battery power).
+    SERVICE_CONTROL_SESSIONCHANGE...There has been a change in session.
 
-    Windows Vista + specific messages:
-    SERVICE_CONTROL_PRESHUTDOWN ......The machine is about to shut down. This provides the service
-                                      much more time to shutdown than SERVICE_CONTROL_SHUTDOWN.
+Windows Vista+ specific messages:
+
+    SERVICE_CONTROL_PRESHUTDOWN ....The machine is about to shut down.
+                                    This provides the service much more
+                                    time to shutdown than
+                                    SERVICE_CONTROL_SHUTDOWN.
 
 
 
@@ -574,9 +602,10 @@ can use the following keys:
     --------
     state..........Valid service state (see table below).
     waithint.......A wait hint explained above. This is in milliseconds.
-    error..........Any 32 bit error code. This is what will be reported if an application
-                   queries the error state of the service. It is also what is reported if
-                   a call to start the services fails.
+    error..........Any 32 bit error code. This is what will be reported
+                   if an application queries the error state of the
+                   service. It is also what is reported if a call to
+                   start the services fails.
                    To reset an error state pass in NO_ERROR.
                    The only invalid error value is 0xFFFFFFFF.
 
@@ -591,17 +620,23 @@ Possible values returned (or submitted):
 
     Valid Service States
     --------------------
-    SERVICE_NOT_READY..........The SCM has not yet been initialized. If the SCM is slow or busy
-                               then this value will result from a call to State().
-                               If you get this value, just keep calling State() until you get
+    SERVICE_NOT_READY..........The SCM has not yet been initialized. If
+                               the SCM is slow or busy then this value
+                               will result from a call to State().
+                               If you get this value, just keep calling
+                               State() until you get
                                SERVICE_START_PENDING.
-    SERVICE_STOPPED............The service is stopped
-    SERVICE_RUNNING............The service is running
-    SERVICE_PAUSED.............The service is paused
-    SERVICE_START_PENDING......The service manager is attempting to start the service
-    SERVICE_STOP_PENDING.......The service manager is attempting to stop the service
-    SERVICE_CONTINUE_PENDING...The service manager is attempting to resume the service
-    SERVICE_PAUSE_PENDING......The service manager is attempting to pause the service
+    SERVICE_STOPPED............The service is stopped.
+    SERVICE_RUNNING............The service is running.
+    SERVICE_PAUSED.............The service is paused.
+    SERVICE_START_PENDING......The service manager is attempting to
+                               start the service.
+    SERVICE_STOP_PENDING.......The service manager is attempting to
+                               stop the service.
+    SERVICE_CONTINUE_PENDING...The service manager is attempting to
+                               resume the service.
+    SERVICE_PAUSE_PENDING......The service manager is attempting to
+                               pause the service.
 
 =back
 
@@ -664,7 +699,7 @@ A typical callback routine should look similar to:
 
 Refer to C<Example 4: Using a single callback> and C<Example 5: Using different callback routines> for an example of using callbacks.
 
-=head1 Compiled Perl Applications
+=head1 COMPILED PERL APPLICATIONS
 
 Many users like to compile their perl scripts into executable programs. This way it is much easier to copy them around
 from machine to machine since all necessary files, packages and binaries are compiled into one .exe file. These compiled
@@ -676,30 +711,32 @@ the 'path' and 'parameters' values into C<CreateService()> observe the following
 
 =over 4
 
-    1) If using a Perl script
-      path........The full path to the Perl interpeter (perl.exe).
-                  This is typically:
-                     c:\perl\bin\perl.exe
+=item If using a Perl script
+
+    path........The full path to the Perl interpeter ($^X).
+                This is typically:
+                  c:\perl\bin\perl.exe
     
-      parameter...This value MUST start with the full path to the
-                  perl script file and append any parameters
-                  that you want passed into the service. For
-                  example:
+    parameters..This value MUST start with the full path to the perl
+                script file and append any parameters
+                that you want passed into the service. For
+                Example:
                   c:\scripts\myPerlService.pl -param1 -param2 "c:\\Param2Path"
     
-    2) If using a compiled Perl application
-      path........The full path to the compiled Perl application.
-                  For example:
+=item If using a compiled Perl application
+
+    path........The full path to the compiled Perl application.
+                For example:
                   c:\compiledscripts\myPerlService.exe
     
-      parameter...This value is just the list of  parameters
-                  that you want passed into the service. For
-                  example:
-                     -param1 -param2 "c:\\Param2Path"
+    parameters..This value is just the list of  parameters
+                that you want passed into the service. For
+                Example:
+                  -param1 -param2 "c:\\Param2Path"
 
 =back
 
-Refer to C<Example 3: Install the service> for an example.
+Refer to L</Example 3: Install the service> for an example.
 
 
 =head1 EXAMPLES
@@ -734,7 +771,8 @@ This particular example does not really illustrate the capabilities of a Perl ba
 =head2 Example 2: Typical skeleton code
 
   # This style of Win32::Daemon use is obsolete. It still works but the
-  # callback model is more efficient and easier to use. Refer to examples 4 and 5.
+  # callback model is more efficient and easier to use. Refer to examples 4
+  #and 5.
   use Win32;
   use Win32::Daemon;
   $SERVICE_SLEEP_TIME = 20; # 20 milliseconds
@@ -786,31 +824,32 @@ This particular example does not really illustrate the capabilities of a Perl ba
       Win32::Daemon::State( $PrevState );
     }
 
-	# Check for any outstanding commands. Pass in a non zero value
-	# and it resets the Last Message to SERVICE_CONTROL_NONE.
-	if( SERVICE_CONTROL_NONE != ( my $Message = Win32::Daemon::QueryLastMessage( 1 ) ) )
-	{
-          if( SERVICE_CONTROL_INTERROGATE == $Message )
-          {
-            # Got here if the Service Control Manager is requesting
-            # the current state of the service. This can happen for
-            # a variety of reasons. Report the last state we set.
-            Win32::Daemon::State( $PrevState );
-          }
-        elsif( SERVICE_CONTROL_SHUTDOWN == $Message )
-        {
-          # Yikes! The system is shutting down. We had better clean up
-          # and stop.
-          # Tell the SCM that we are preparing to shutdown and that we expect
-          # it to take 25 seconds (so don't terminate us for at least 25 seconds)...
-          Win32::Daemon::State( SERVICE_STOP_PENDING, 25000 );
-        }
+    # Check for any outstanding commands. Pass in a non zero value
+    # and it resets the Last Message to SERVICE_CONTROL_NONE.
+    if( SERVICE_CONTROL_NONE != ( my $Message = Win32::Daemon::QueryLastMessage( 1 ) ) )
+    {
+      if( SERVICE_CONTROL_INTERROGATE == $Message )
+      {
+        # Got here if the Service Control Manager is requesting
+        # the current state of the service. This can happen for
+        # a variety of reasons. Report the last state we set.
+        Win32::Daemon::State( $PrevState );
       }
-      # Snooze for awhile so we don't suck up cpu time...
-      Win32::Sleep( $SERVICE_SLEEP_TIME );
-   }
-   # We are done so close down...
-   Win32::Daemon::StopService();
+      elsif( SERVICE_CONTROL_SHUTDOWN == $Message )
+      {
+        # Yikes! The system is shutting down. We had better clean up
+        # and stop.
+        # Tell the SCM that we are preparing to shutdown and that we
+        # expect it to take 25 seconds (so don't terminate us for at
+        # least 25 seconds)...
+        Win32::Daemon::State( SERVICE_STOP_PENDING, 25000 );
+      }
+    }
+    # Snooze for awhile so we don't suck up cpu time...
+    Win32::Sleep( $SERVICE_SLEEP_TIME );
+  }
+  # We are done so close down...
+  Win32::Daemon::StopService();
 
 
 =head2 Example 3: Install the service
@@ -858,7 +897,8 @@ Since no user is specified it defaults to the LocalSystem.
 
 In this example only one subroutine is used for all callbacks. The CallbackRoutine()
 subroutine will receive all event callbacks. Basically this callback routine will
-have to do essentially the same thing that the main while loop in C<Example 2> does.
+have to do essentially the same thing that the main while loop in
+L</Example 2: Typical skeleton code> does.
 
     use Win32::Daemon;
     Win32::Daemon::RegisterCallbacks( \&CallbackRoutine );
@@ -907,7 +947,8 @@ have to do essentially the same thing that the main while loop in C<Example 2> d
             $Context->{last_state} = SERVICE_STOPPED;
             Win32::Daemon::State( SERVICE_STOPPED );
     
-            # We need to notify the Daemon that we want to stop callbacks and the service.
+            # We need to notify the Daemon that we want to stop callbacks
+            # and the service.
             Win32::Daemon::StopService();
         }
         else
@@ -931,7 +972,7 @@ have to do essentially the same thing that the main while loop in C<Example 2> d
         continue    =>  \&Callback_Continue,
     } );
 
-    %Context = (
+    my %Context = (
         last_state => SERVICE_STOPPED,
         start_time => time(),
     );
@@ -1033,6 +1074,8 @@ will be most impacted as they will expect.
 
 =head1 SEE ALSO
 
+L<MSDN: I<Service Control Manager>|http://msdn.microsoft.com/fr-fr/library/ms685150>
+
 L<MSDN: I<Service Functions>|http://msdn.microsoft.com/fr-fr/library/ms685942%28v=VS.85%29.aspx>
 
 =head1 AUTHOR
@@ -1056,7 +1099,7 @@ being maintained as part of the libwin32 project <libwin32@perl.org>.
 
 =head1 COPYRIGHT
 
-Copyright (c) 1998 - 2010 the Win32::Daemon L</AUTHOR> and L</CONTRIBUTORS>
+Copyright (C) 1998 - 2010 the Win32::Daemon L</AUTHOR> and L</CONTRIBUTORS>
 as listed above.
 
 =head1 LICENSE
