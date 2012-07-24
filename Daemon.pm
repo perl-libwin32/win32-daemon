@@ -576,7 +576,7 @@ finally ready to stop it must submit the C<SERVICE_STOPPED> message as in:
 
     if( SERVICE_CONTROL_SHUTDOWN == State() )
     {
-        Win32::Daemon::State( SERVICE_STOP_PENDING, 30 );
+        Win32::Daemon::State( SERVICE_STOP_PENDING, 30_000 );
         #...process code...
         Win32::Daemon::State( SERVICE_STOPPED );
     }
