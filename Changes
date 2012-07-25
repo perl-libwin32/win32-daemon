@@ -133,3 +133,5 @@ HISTORY:
 
 XXXXXXXX Olivier Mengué
         - POD cleanup
+	- Doc fix from Brian Wightman (github #1, #2): wait hint in service
+	  service status is in ms
