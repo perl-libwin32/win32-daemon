@@ -10,9 +10,7 @@ requires:
   perl: 5.6
 resources:
   license: http://dev.perl.org/licenses
-  homepage: http://code.google.com/p/libwin32
-  repository: http://libwin32.googlecode.com/svn/trunk
-  MailingList: http://groups.google.com/group/perl.libwin32
+  repository: https://github.com/jandubois/win32-daemon/
 no_index:
   directory:
     - t
