@@ -663,7 +663,7 @@ When an event callback occurs the subroutine should change the state accordingly
 passing in the new state into C<State()>. For example the 'Start' callback would call
 C<State( SERVICE_RUNNING )> to inform the service that it is officially running. Another
 example is the 'Pause' state should call C<State( SERVICE_PAUSED )> to inform the service
-that it is offically paused.
+that it is officially paused.
 
 Once callback subroutines are registered the script enters the service mode by calling
 C<StartService()>. This will being the process of calling the event callback routines.
