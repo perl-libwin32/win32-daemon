@@ -7,7 +7,7 @@ author:
   - libwin32 project <libwin32@perl.org>
 license: perl
 requires: 
-  perl: 5.6
+  perl: 5.006
 resources:
   license: http://dev.perl.org/licenses
   homepage: http://code.google.com/p/libwin32
