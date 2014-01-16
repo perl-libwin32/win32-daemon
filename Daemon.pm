@@ -1054,7 +1054,7 @@ callback passing in a value of SERVICE_RUNNING.
 =item *
 
 ...registers for the "timer" callback then timer expiration results in a callback to the
-subroutine registered for the "timer" callback, passing in a value of SREVICE_CONTROL_TIMER.
+subroutine registered for the "timer" callback, passing in a value of SERVICE_CONTROL_TIMER.
 
 =item *
 
