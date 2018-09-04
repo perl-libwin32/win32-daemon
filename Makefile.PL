@@ -14,7 +14,7 @@ my %param = (
     NAME          => 'Win32::Daemon',
     VERSION_FROM  => 'Daemon.pm',
     DEFINE        => '-DPERL_NO_GET_CONTEXT',
-    OBJECT        => 'CCallbackList$(OBJ_EXT) CCallbackTimer$(OBJ_EXT) Constant$(OBJ_EXT) CWinStation$(OBJ_EXT) Daemon$(OBJ_EXT) ServiceThread$(OBJ_EXT)',
+    OBJECT        => 'CCallbackList$(OBJ_EXT) CCallbackTimer$(OBJ_EXT) constant$(OBJ_EXT) CWinStation$(OBJ_EXT) Daemon$(OBJ_EXT) ServiceThread$(OBJ_EXT)',
     XS            => { 'Daemon.xs' => 'Daemon.cpp' },
 );
 $param{INC} .= ' -EHsc' if $Config{'cc'} =~ /^cl/i;
