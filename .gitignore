@@ -24,4 +24,5 @@ xx*
 *.o
 Daemon.cpp
 Daemon.o
+Daemon.def
 .vscode/
