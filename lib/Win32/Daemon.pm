@@ -1,28 +1,24 @@
-#//////////////////////////////////////////////////////////////////////////////
-#//
-#//  Daemon.pm
-#//  Win32::Daemon Perl extension package file
-#//
-#//////////////////////////////////////////////////////////////////////////////
-
 package Win32::Daemon;
 
-$PACKAGE = $Package = "Win32::Daemon";
+our $VERSION = '20180920';
 
-$VERSION = 20110117;
-require Exporter;
-require DynaLoader;
+our $XS_VERSION = $VERSION;
+
+use strict;
+use warnings;
+use Exporter qw(import);
+require XSLoader;
+
+XSLoader::load('Win32::Daemon', $XS_VERSION);
 
 my @OSVerInfo = Win32::GetOSVersion();
 my $OSVersion = "$OSVerInfo[1].$OSVerInfo[2]";
 my $RECOGNIZED_CONTROLS;
 
-@ISA= qw( Exporter DynaLoader );
-    # Items to export into callers namespace by default. Note: do not export
-    # names by default without a very good reason. Use EXPORT_OK instead.
-    # Do not simply export all your public functions/methods/constants.
-@EXPORT = qw(
-
+# Items to export into callers namespace by default. Note: do not export
+# names by default without a very good reason. Use EXPORT_OK instead.
+# Do not simply export all your public functions/methods/constants.
+our @EXPORT = qw(
     SERVICE_CONTROL_USER_DEFINED
     SERVICE_NOT_READY
     SERVICE_STOPPED
@@ -97,50 +93,46 @@ my $RECOGNIZED_CONTROLS;
     NO_ERROR
 );
 
+our @EXPORT_OK = qw();
 
-@EXPORT_OK = qw(
-);
-
-bootstrap $Package;
-
-sub AUTOLOAD
-{
-    # This AUTOLOAD is used to 'autoload' constants from the constant()
-    # XS function.  If a constant is not found then control is passed
-    # to the AUTOLOAD in AutoLoader.
-
-    my( $Constant ) = $AUTOLOAD;
-    my( $Result, $Value );
-    $Constant =~ s/.*:://;
-
-    $Result = Constant( $Constant, $Value );
-
-    if( 0 == $Result )
-    {
-        # The extension could not resolve the constant...
-        $AutoLoader::AUTOLOAD = $AUTOLOAD;
-            goto &AutoLoader::AUTOLOAD;
-        return;
-    }
-    elsif( 1 == $Result )
-    {
-        # $Result == 1 if the constant is valid but not defined
-        # that is, the extension knows that the constant exists but for
-        # some wild reason it was not compiled with it.
-        $pack = 0;
-        ($pack,$file,$line) = caller;
-        print "Your vendor has not defined $Package macro $constname, used in $file at line $line.";
-    }
-    elsif( 2 == $Result )
-    {
-        # If $Result == 2 then we have a string value
-        $Value = "'$Value'";
-    }
-        # If $Result == 3 then we have a numeric value
-
-    eval "sub $AUTOLOAD { return( $Value ); }";
-    goto &$AUTOLOAD;
-}
+# sub AUTOLOAD
+# {
+#     # This AUTOLOAD is used to 'autoload' constants from the constant()
+#     # XS function.  If a constant is not found then control is passed
+#     # to the AUTOLOAD in AutoLoader.
+#
+#     my( $Constant ) = $AUTOLOAD;
+#     my( $Result, $Value );
+#     $Constant =~ s/.*:://;
+#
+#     $Result = Constant( $Constant, $Value );
+#
+#     if( 0 == $Result )
+#     {
+#         # The extension could not resolve the constant...
+#         $AutoLoader::AUTOLOAD = $AUTOLOAD;
+#             goto &AutoLoader::AUTOLOAD;
+#         return;
+#     }
+#     elsif( 1 == $Result )
+#     {
+#         # $Result == 1 if the constant is valid but not defined
+#         # that is, the extension knows that the constant exists but for
+#         # some wild reason it was not compiled with it.
+#         $pack = 0;
+#         ($pack,$file,$line) = caller;
+#         print "Your vendor has not defined 'Win32::Daemon' macro $constname, used in $file at line $line.";
+#     }
+#     elsif( 2 == $Result )
+#     {
+#         # If $Result == 2 then we have a string value
+#         $Value = "'$Value'";
+#     }
+#         # If $Result == 3 then we have a numeric value
+#
+#     eval "sub $AUTOLOAD { return( $Value ); }";
+#     goto &$AUTOLOAD;
+# }
 
 
 # For a module, you *always* return TRUE...
@@ -529,7 +521,7 @@ Possible values returned are:
                                     SERVICE_CONTINUE_PENDING.
     SERVICE_CONTROL_INTERROGATE.....The service manager is querying the
                                     service's state
-    
+
     SERVICE_CONTROL_USER_DEFINED....This is a user defined control.
                                     There are 127 of these beginning
                                     with SERVICE_CONTROL_USER_DEFINED
@@ -686,9 +678,9 @@ A typical callback routine should look similar to:
     {
         my( $Event, $Context ) = @_;
         $Context->{last_event} = $Event;
-    
+
         # ...do some work here...
-    
+
         # Tell the service manager that we have now
         # entered the running state.
         Win32::Daemon::State( SERVICE_RUNNING );
@@ -715,19 +707,19 @@ the 'path' and 'parameters' values into C<CreateService()> observe the following
     path........The full path to the Perl interpeter ($^X).
                 This is typically:
                   c:\perl\bin\perl.exe
-    
+
     parameters..This value MUST start with the full path to the perl
                 script file and append any parameters
                 that you want passed into the service. For
                 Example:
                   c:\scripts\myPerlService.pl -param1 -param2 "c:\\Param2Path"
-    
+
 =item If using a compiled Perl application
 
     path........The full path to the compiled Perl application.
                 For example:
                   c:\compiledscripts\myPerlService.exe
-    
+
     parameters..This value is just the list of  parameters
                 that you want passed into the service. For
                 Example:
@@ -814,7 +806,7 @@ This particular example does not really illustrate the capabilities of a Perl ba
     {
       # The service is running as normal...
       # ...add the main code here...
-    
+
     }
     else
     {
@@ -864,15 +856,15 @@ Since no user is specified it defaults to the LocalSystem.
     # Otherwise it must point to the Perl interpreter (perl.exe) which
     # is conviently provided by the $^X variable...
     my $ServicePath = $^X;
-    
+
     # If using a compiled perl script then $ServiceParams
     # must be the parameters to pass into your Perl service as in:
     #    $ServiceParams = '-param1 -param2 "c:\\Param2Path"';
     # OTHERWISE
     # it MUST point to the perl script file that is the service such as:
     my $ServiceParams = 'c:\perl\scripts\myPerlService.pl -param1 -param2 "c:\\Param2Path"';
-    
-    
+
+
     my %service_info = (
         machine =>  '',
         name    =>  'PerlTest',
@@ -909,18 +901,18 @@ L</Example 2: Typical skeleton code> does.
     # indicating to callback using the "Running" event
     # every 2000 milliseconds (2 seconds).
     Win32::Daemon::StartService( \%Context, 2000 );
-    
+
     sub CallbackRoutine
     {
         my( $Event, $Context ) = @_;
-    
+
         $Context->{last_event} = $Event;
         if( SERVICE_RUNNING == $Event )
         {
             # ... process your main stuff here...
             # ... note that here there is no need to
             #     change the state
-    
+
         }
         elsif( SERVICE_START_PENDING == $Event )
         {
@@ -945,7 +937,7 @@ L</Example 2: Typical skeleton code> does.
         {
             $Context->{last_state} = SERVICE_STOPPED;
             Win32::Daemon::State( SERVICE_STOPPED );
-    
+
             # We need to notify the Daemon that we want to stop callbacks
             # and the service.
             Win32::Daemon::StopService();
@@ -975,16 +967,16 @@ L</Example 2: Typical skeleton code> does.
         last_state => SERVICE_STOPPED,
         start_time => time(),
     );
-    
+
     # Start the service passing in a context and
     # indicating to callback using the "Running" event
     # every 2000 milliseconds (2 seconds).
     Win32::Daemon::StartService( \%Context, 2000 );
-    
+
     sub Callback_Running
     {
         my( $Event, $Context ) = @_;
-    
+
         # Note that here you want to check that the state
         # is indeed SERVICE_RUNNING. Even though the Running
         # callback is called it could have done so before
@@ -1026,7 +1018,7 @@ L</Example 2: Typical skeleton code> does.
         my( $Event, $Context ) = @_;
         $Context->{last_state} = SERVICE_STOPPED;
         Win32::Daemon::State( SERVICE_STOPPED );
-    
+
         # We need to notify the Daemon that we want to stop callbacks and the service.
         Win32::Daemon::StopService();
     }
