@@ -559,7 +559,6 @@ the 'path' and 'parameters' values into `CreateService()` observe the following 
                 that you want passed into the service. For
                 Example:
                   c:\scripts\myPerlService.pl -param1 -param2 "c:\\Param2Path"
-
     ```
 
 - If using a compiled Perl application
@@ -656,7 +655,7 @@ while( SERVICE_STOPPED != ( $State = Win32::Daemon::State() ) )
   {
     # The service is running as normal...
     # ...add the main code here...
-  
+
   }
   else
   {

@@ -1,139 +1,141 @@
-Win32::Daemon
-HISTORY:
+Revision history for Perl extension {{$dist->name}}
 
-20000618
-	-Added:
-		-ConfigureService
-		-QueryServiceConfig
+{{$NEXT}}
+    - POD cleanup
+    - Doc fix from Brian Wightman (github #1, #2): wait hint in service
+      service status is in ms
+    - Fix the build by fixing the case sensitive Constant to constant
+      (RT #126272 and RT #75506)
+    - Cleaned up and organized this change log
+    - Use Dist::Zilla to prepare the releases
+    - Maintain dependencies in cpanfile
+    - Test with appveyor
+    - Move Daemon.pm to its proper spot in the lib/Win32 directory
+    - Take Cygwin out of the supported OSes as there are many compilation errors
+      at the moment. Please submit a PR if you are capable of fixing this!
 
-20011230 rothd@roth.net
-	- Fixed bug where service doesn't work properly with Windows NT 4. We were
-	  defaulting by acccepting the SERVICE_ACCEPT_PARAMCHANGE and
-	  SERVICE_ACCEPT_NETBINDCHANGE controls. However, they were introduced in
-	  Win2k so NT 4 coughed up blood with them.
+20110117  2011-10-17
+    - make sure DllMain() has "C" linkage when compiled with MinGW
+      (Haiko Strotbek). [rt#64575]
+    - change StartService() and GetServiceHandle() to return proper
+      64-bit value on Win64 (Haiko Strotbek). [rt#64577]
 
-20010224
-	-Added:
-	-RegisterCallbacks() (and callback support)
+20101014  2010-10-14
+    - minimal POD cleanup
+    - avoid CPAN indexing of the packages under test/
+    - QueryLastMessage() had been renamed to LastControlMessage().
+      Rename it back to preserve backwards compatibility.
 
-20011205
-	-Added:
-	-AcceptedControls()
+20091028  2009-10-28
+    - Disabled END {} in non-main threads to fix bug RT#50020 (Olivier Mengué)
 
-20011205 rothd
-        -Fixed bug where "invalid service state 80" is reported in the Win32 event log.
-        -Added initial support for SCM request callbacks (this is not implemented fully and
-         is not supported yet).
-        -Added SERVICE_CONTROL_NONE constant
-        -Fixed State() so it only returns states, not commands.
-        -Modified QueryLastMessage(). It now allows you to reset the last message to SERVICE_CONTROL_NONE.
-        -Added SERVICE_NOT_READY state
-        -Cleaned up some states.
-        -Added AcceptedControls() function.
+20080321  2008-03-21
+    - Added support for SERVICE_CONTROL_PRESHUTDOWN.
+    - Callbacks can now return a state value. This is the functional equivalent
+      of calling Win32::Daemon::State( $NewState ) before returning:
+        //	sub EventCallback
+        //	{
+        //	  my( $Event, $Context ) = @_;
+        //		# Process the event
+        //		Win32::Daemon::State( $NewState );
+        //	  return;
+        //	}
+        //	=================== SAME AS ====================
+        //	sub EventCallback
+        //	{
+        //	  my( $Event, $Context ) = @_;
+        //		# Process the event
+        //	  return( $NewState );
+        //	}
+    - Callback timer works correctly!
+    - CALLBACK_RUNNING has been depreciated and replaced with CALLBACK_TIMER.
+      It is only called when the timer (set by CallbackTimer()) has expired.
+      Use this as a heartbeat. You only need to set it once either with
+      CallbackTimer() or passing in the timer value when calling into
+      StartService(). Set the callback using "timer" as the callback name.
+      Using "running" will also work but it is mapped to "timer". If you
+      specify both, only "timer" will be registered.
+    - Created TestFramework.pm to help with testing services.
+    - Pruned out unnecessary stuff from Daemon.pm file.
 
-20011217 rothd
-        - Added support for .Net Server accept control contants:
-            SERVICE_ACCEPT_HARDWAREPROFILECHANGE
-            SERVICE_ACCEPT_POWEREVENT
-            SERVICE_ACCEPT_SESSIONCHANGE
+20070102  2007-01-02
+    - Cleaned up a bit.
+    - Added WM_QUIT message to the ServiceMain function. Now the Perl StopService() will
+      post this message to shut down the service thread.
+    - Fixed bug where messages were posted to wrong thread.
 
-20011221 rothd@roth.net
-        - Fixed bug where service doesn't work properly with Windows NT 4. We were
-          defaulting by acccepting the SERVICE_ACCEPT_PARAMCHANGE and
-          SERVICE_ACCEPT_NETBINDCHANGE controls. However, they were introduced in
-          Win2k so NT 4 coughed up blood with them.
+20061222  2006-12-22
+    - Converted to XS file.
+    - Fixed callback heartbeat: now properly calls back with SERVICE_RUNNING
+      (not SERVICE_CONTROL_RUNNING)
+    - StopService() will post WM_QUIT message to the ServiceMain() thread to
+      shut down the service thread.
+    - Calling into StopService() will auto change the state to STOPPING/STOPPED
+      so you do not need to explicitly do so (calling State() or a callback
+      returning STOPPING/STOPPED).
 
-20020108 rothd@roth.net
-        - Fixed another bug wwhere servie wouldn't work on Win2k machines. We
-          were treating Win2k (version 5.0) the same as WinXP (version 5.1) and
-          adding WinXP specific controls. This rendered the service unable to
-          start, pause or stop. Fix was only in the Daemon.pm file.
+20030617  2003-06-17
+    - Added support for querying and setting service security. This includes
+      DACL and SACL support. Due to complexity and failures you can not set
+      owner or group. But in most cases (99%) this is not needed.
+    - GetSecurity()
+    - SetSecurity()
+    - Finished incorporating callback routines.
+    - Added a few more events.
 
-20020114 marc.pijnappels@nec-computers.com
-        - Fixed another bug where service wouldn't work on WinXP machines. Variable
-          recognized_controls was wrongly initialized for WinXP systems. This
-          rendered the service unable to start, pause or stop. Fix was only in
-          the Daemon.pm file.
+20020605  2002-06-05
+    - Added support for reporting service errors. You can now pass in a
+      hash reference into State(). More details in the POD docs.
+    - Modified: UpdateServiceStatus() function to accept a 3rd parameter
+      (dwError). This allows the calling code to report a service error.
 
-20020605 rothd@roth.net
-	- Added support for reporting service errors. You can now pass in a
-	  hash reference into State(). More details in the POD docs.
-	- Modified: UpdateServiceStatus() function to accept a 3rd parameter (dwError). This allows the calling code to report a service error.
+20020114  2002-01-14
+    - Fixed another bug where service wouldn't work on WinXP machines. Variable
+      recognized_controls was wrongly initialized for WinXP systems. This
+      rendered the service unable to start, pause or stop. Fix was only in
+      the Daemon.pm file. (marc.pijnappels@nec-computers.com)
 
-20020605 rothd@roth.net
-        - Added support for reporting service errors. You can now pass in a
-          hash reference into State(). More details in the POD docs.
+20020108  2002-01-08
+    - Fixed another bug wwhere servie wouldn't work on Win2k machines. We
+      were treating Win2k (version 5.0) the same as WinXP (version 5.1) and
+      adding WinXP specific controls. This rendered the service unable to
+      start, pause or stop. Fix was only in the Daemon.pm file.
 
-20030617 rothd@roth.net
-        - Added support for querying and setting service security. This includes
-          DACL and SACL support. Due to complexity and failures you can not set
-          owner or group. But in most cases (99%) this is not needed.
-          - GetSecurity()
-          - SetSecurity()
-        - Finished incorporating callback routines.
-        - Added a few more events.
+20011230  2001-12-30
+    - Fixed bug where service doesn't work properly with Windows NT 4. We were
+      defaulting by acccepting the SERVICE_ACCEPT_PARAMCHANGE and
+      SERVICE_ACCEPT_NETBINDCHANGE controls. However, they were introduced in
+      Win2k so NT 4 coughed up blood with them. (rothd@roth.net)
 
+20011221  2001-12-21
+    - Fixed bug where service doesn't work properly with Windows NT 4. We were
+      defaulting by acccepting the SERVICE_ACCEPT_PARAMCHANGE and
+      SERVICE_ACCEPT_NETBINDCHANGE controls. However, they were introduced in
+      Win2k so NT 4 coughed up blood with them.
 
-20061222 rothd@roth.net
-	- Converted to XS file.
-	- Fixed callback heartbeat: now properly calls back with SERVICE_RUNNING (not SERVICE_CONTROL_RUNNING)
-	- StopService() will post WM_QUIT message to the ServiceMain() thread to shut down the service thread.
-	- Calling into StopService() will auto change the state to STOPPING/STOPPED so you do not need to
-	  explicitly do so (calling State() or a callback returning STOPPING/STOPPED).
+20011217  2001-12-17
+    - Added support for .Net Server accept control contants:
+      SERVICE_ACCEPT_HARDWAREPROFILECHANGE
+      SERVICE_ACCEPT_POWEREVENT
+      SERVICE_ACCEPT_SESSIONCHANGE
 
-20070102 rothd
-	- Cleaned up a bit.
-	- Added WM_QUIT message to the ServiceMain function. Now the Perl StopService() will
-	  post this message to shut down the service thread.
-	- Fixed bug where messages were posted to wrong thread.
+20011205  2001-12-05
+    - AcceptedControls()
+    - Fixed bug where "invalid service state 80" is reported in the Win32 event
+      log.
+    - Added initial support for SCM request callbacks (this is not implemented
+      fully and is not supported yet).
+    - Added SERVICE_CONTROL_NONE constant
+    - Fixed State() so it only returns states, not commands.
+    - Modified QueryLastMessage(). It now allows you to reset the last message
+      to SERVICE_CONTROL_NONE.
+    - Added SERVICE_NOT_READY state
+    - Cleaned up some states.
+    - Added AcceptedControls() function.
 
-20080321 rothd
-	- Added support for SERVICE_CONTROL_PRESHUTDOWN.
-	- Callbacks can now return a state value. This is the functional equivilent of calling
-	  Win32::Daemon::State( $NewState ) before returning:
-		//	sub EventCallback
-		//	{
-		//	  my( $Event, $Context ) = @_;
-		//		# Process the event
-		//		Win32::Daemon::State( $NewState );
-		//	  return;
-		//	}
-		//	=================== SAME AS ====================
-		//	sub EventCallback
-		//	{
-		//	  my( $Event, $Context ) = @_;
-		//		# Process the event
-		//	  return( $NewState );
-		//	}
+20010224  2001-02-24
+    - RegisterCallbacks() (and callback support)
 
-	- Callback timer works correctly!
-	- CALLBACK_RUNNING has been depreciated and replaced with CALLBACK_TIMER. It is only called
-	  when the timer (set by CallbackTimer()) has expired. Use this as a heartbeat. You only need
-	  to set it once either with CallbackTimer() or passing in the timer value when calling into
-	  StartService().
-	  Set the callback using "timer" as the callback name. Using "running" will also work but it
-	  is mapped to "timer". If you specify both, only "timer" will be registered.
-	- Created TestFramework.pm to help with testing services.
-	- Pruned out unnecessary stuff from Daemon.pm file.
-
-20091028 Olivier Mengué
-        - Disabled END {} in non-main threads to fix bug RT#50020
-
-20101014 Jan Dubois
-	- minimal POD cleanup
-	- avoid CPAN indexing of the packages under test/
-	- QueryLastMessage() had been renamed to LastControlMessage().
-	  Rename it back to preserve backwards compatibility.
-
-20110117 Jan Dubois
-	- make sure DllMain() has "C" linkage when compiled with MinGW
-	  (Haiko Strotbek). [rt#64575]
-	- change StartService() and GetServiceHandle() to return proper
-	  64-bit value on Win64 (Haiko Strotbek). [rt#64577]
-
-XXXXXXXX Olivier Mengué
-	- POD cleanup
-	- Doc fix from Brian Wightman (github #1, #2): wait hint in service
-	  service status is in ms
-	- Fix the build by fixing the case sensitive Constant to constant
-	  (RT #126272 and RT #75506)
+20000618  2000-06-18
+    - ConfigureService
+    - QueryServiceConfig
