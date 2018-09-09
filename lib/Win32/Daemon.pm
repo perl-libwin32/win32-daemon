@@ -264,6 +264,9 @@ This function creates a new service in the system configuration. The
 return is TRUE if the service was created, and FALSE otherwise. If an error
 occurred, call GetLastError to retrieve the actual error code.
 
+B<NOTE:> This function will fail if the script is not running with administrator
+privileges.
+
 The hash describes the service to be created. The keys are:
 
 =over 4

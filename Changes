@@ -10,6 +10,8 @@ Revision history for Perl extension {{$dist->name}}
     - Move Daemon.pm to its proper spot in the lib/Win32 directory
     - Take Cygwin out of the supported OSes as there are many compilation errors
       at the moment. Please submit a PR if you are capable of fixing this!
+    - Document that CreateService() requires admin rights and don't hide
+      "permission denied" error (RT #73715, RT #86501 and RT #86882)
 
 20131206  2013-12-06
     - Fix required perl version 5.6 -> 5.006
