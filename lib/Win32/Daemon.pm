@@ -1,6 +1,6 @@
 package Win32::Daemon;
 
-our $VERSION = '20180920';
+our $VERSION = '20181025';
 
 our $XS_VERSION = $VERSION;
 

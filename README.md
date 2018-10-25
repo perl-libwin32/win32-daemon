@@ -115,6 +115,9 @@ This extension enables a Win32 Perl script to act as a true Win32 service.
     return is TRUE if the service was created, and FALSE otherwise. If an error
     occurred, call GetLastError to retrieve the actual error code.
 
+    **NOTE:** This function will fail if the script is not running with administrator
+    privileges.
+
     The hash describes the service to be created. The keys are:
 
     - `name`
