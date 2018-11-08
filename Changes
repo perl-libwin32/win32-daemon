@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+20181025  2018-10-25
     - Fix the build by fixing the case sensitive Constant to constant
       (RT #126272 and RT #75506)
     - Cleaned up and organized this change log
