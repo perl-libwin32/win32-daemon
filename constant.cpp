@@ -72,6 +72,8 @@ static ConstantStruct gsConst[] =
 
 #ifdef SERVICE_CONTROL_PRESHUTDOWN
 	{ TEXT( "SERVICE_CONTROL_PRESHUTDOWN"),		(LPVOID) (SERVICE_CONTROL_PRESHUTDOWN),		Numeric },
+#else
+	{ TEXT( "SERVICE_CONTROL_PRESHUTDOWN"),		(LPVOID) NULL,					NotPresent },
 #endif
 
     //  Service bits available to a script
@@ -102,14 +104,20 @@ static ConstantStruct gsConst[] =
     
 #ifdef SERVICE_ACCEPT_HARDWAREPROFILECHANGE
     { TEXT( "SERVICE_ACCEPT_HARDWAREPROFILECHANGE" ), (LPVOID) (SERVICE_ACCEPT_HARDWAREPROFILECHANGE),    Numeric },   
+#else
+    { TEXT( "SERVICE_ACCEPT_HARDWAREPROFILECHANGE" ), (LPVOID) NULL,                                      NotPresent },
 #endif // SERVICE_ACCEPT_HARDWAREPROFILECHANGE
 
 #ifdef SERVICE_ACCEPT_POWEREVENT
     { TEXT( "SERVICE_ACCEPT_POWEREVENT" ),      (LPVOID) (SERVICE_ACCEPT_POWEREVENT),    Numeric },   
+#else
+    { TEXT( "SERVICE_ACCEPT_POWEREVENT" ),      (LPVOID) NULL,                           NotPresent },
 #endif // SERVICE_ACCEPT_POWEREVENT
 
 #ifdef SERVICE_ACCEPT_SESSIONCHANGE
     { TEXT( "SERVICE_ACCEPT_SESSIONCHANGE" ),   (LPVOID) (SERVICE_ACCEPT_SESSIONCHANGE),    Numeric },   
+#else
+    { TEXT( "SERVICE_ACCEPT_SESSIONCHANGE" ),   (LPVOID) NULL,                              NotPresent },
 #endif // SERVICE_ACCEPT_SESSIONCHANGE
     
     

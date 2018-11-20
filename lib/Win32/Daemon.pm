@@ -6,6 +6,7 @@ our $XS_VERSION = $VERSION;
 
 use strict;
 use warnings;
+use Carp;
 use Exporter qw(import);
 require XSLoader;
 
@@ -121,7 +122,7 @@ sub AUTOLOAD
         # that is, the extension knows that the constant exists but for
         # some wild reason it was not compiled with it.
         my ($package,$file,$line) = caller;
-        print "Your vendor has not defined 'Win32::Daemon' macro $Constant, used in $file at line $line.";
+        croak "Your vendor has not defined 'Win32::Daemon' macro $Constant, used in $file at line $line.";
     }
     elsif( 2 == $Result )
     {
