@@ -95,44 +95,44 @@ our @EXPORT = qw(
 
 our @EXPORT_OK = qw();
 
-# sub AUTOLOAD
-# {
-#     # This AUTOLOAD is used to 'autoload' constants from the constant()
-#     # XS function.  If a constant is not found then control is passed
-#     # to the AUTOLOAD in AutoLoader.
-#
-#     my( $Constant ) = $AUTOLOAD;
-#     my( $Result, $Value );
-#     $Constant =~ s/.*:://;
-#
-#     $Result = Constant( $Constant, $Value );
-#
-#     if( 0 == $Result )
-#     {
-#         # The extension could not resolve the constant...
-#         $AutoLoader::AUTOLOAD = $AUTOLOAD;
-#             goto &AutoLoader::AUTOLOAD;
-#         return;
-#     }
-#     elsif( 1 == $Result )
-#     {
-#         # $Result == 1 if the constant is valid but not defined
-#         # that is, the extension knows that the constant exists but for
-#         # some wild reason it was not compiled with it.
-#         $pack = 0;
-#         ($pack,$file,$line) = caller;
-#         print "Your vendor has not defined 'Win32::Daemon' macro $constname, used in $file at line $line.";
-#     }
-#     elsif( 2 == $Result )
-#     {
-#         # If $Result == 2 then we have a string value
-#         $Value = "'$Value'";
-#     }
-#         # If $Result == 3 then we have a numeric value
-#
-#     eval "sub $AUTOLOAD { return( $Value ); }";
-#     goto &$AUTOLOAD;
-# }
+sub AUTOLOAD
+{
+    # This AUTOLOAD is used to 'autoload' constants from the constant()
+    # XS function.  If a constant is not found then control is passed
+    # to the AUTOLOAD in AutoLoader.
+
+    our $AUTOLOAD;
+    my( $Constant ) = $AUTOLOAD;
+    my( $Result, $Value );
+    $Constant =~ s/.*:://;
+
+    $Result = Constant( $Constant, $Value );
+
+    if( 0 == $Result )
+    {
+        # The extension could not resolve the constant...
+        $AutoLoader::AUTOLOAD = $AUTOLOAD;
+            goto &AutoLoader::AUTOLOAD;
+        return;
+    }
+    elsif( 1 == $Result )
+    {
+        # $Result == 1 if the constant is valid but not defined
+        # that is, the extension knows that the constant exists but for
+        # some wild reason it was not compiled with it.
+        my ($package,$file,$line) = caller;
+        print "Your vendor has not defined 'Win32::Daemon' macro $Constant, used in $file at line $line.";
+    }
+    elsif( 2 == $Result )
+    {
+        # If $Result == 2 then we have a string value
+        $Value = "'$Value'";
+    }
+        # If $Result == 3 then we have a numeric value
+
+    eval "sub $AUTOLOAD { return( $Value ); }";
+    goto &$AUTOLOAD;
+}
 
 
 # For a module, you *always* return TRUE...
