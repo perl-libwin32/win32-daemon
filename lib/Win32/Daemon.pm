@@ -7,6 +7,7 @@ our $XS_VERSION = $VERSION;
 use strict;
 use warnings;
 use Carp;
+use AutoLoader;
 use Exporter qw(import);
 require XSLoader;
 
