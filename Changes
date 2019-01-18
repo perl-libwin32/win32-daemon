@@ -1,6 +1,7 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+    - fix and simplify constant exporting (#13)
 
 20181025  2018-10-25
     - Fix the build by fixing the case sensitive Constant to constant
