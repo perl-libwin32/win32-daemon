@@ -57,7 +57,6 @@ void ExportConstants(pTHX)
     HV *stash = gv_stashpv("Win32::Daemon", GV_ADD);
     AV *export_av = get_av("Win32::Daemon::EXPORT_XS", TRUE);
 
-    DO_CONST_IV(SERVICE_CONTROL_USER_DEFINED);
     DO_CONST_IV(SERVICE_NOT_READY);
     DO_CONST_IV(SERVICE_STOPPED);
     DO_CONST_IV(SERVICE_RUNNING);
@@ -137,7 +136,6 @@ void ExportConstants(pTHX)
     DO_CONST_IV(SERVICE_DISABLED);
 
     //  Define Error Controls
-    DO_CONST_IV(SERVICE_DISABLED);
     DO_CONST_IV(SERVICE_ERROR_NORMAL);
     DO_CONST_IV(SERVICE_ERROR_SEVERE);
     DO_CONST_IV(SERVICE_ERROR_CRITICAL);
