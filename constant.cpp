@@ -44,9 +44,10 @@ typedef wchar_t wctype_t; /* in tchar.h, but unavailable unless _UNICODE */
 #define DO_CONST_IV(c) \
     newCONSTSUB_flags(stash, #c, strlen(#c), 0, newSViv(c)); \
     av_push(export_av, newSVpvs(#c));
-#define DO_CONST_PV(c) \
-    newCONSTSUB_flags(stash, #c, strlen(#c), 0, newSVpvn(c, strlen(c))); \
-    av_push(export_av, newSVpvs(#c));
+
+#define DO_CONST_PV_NAME(name, value) \
+    newCONSTSUB_flags(stash, name, strlen(name), 0, newSVpvn(value, strlen(value))); \
+    av_push(export_av, newSVpvn(name, strlen(name)));
 
 // SC_GROUP_IDENTIFIER is a char constant, we need to make it a string
 // before we pass it to DO_CONST_PV()
@@ -141,7 +142,7 @@ void ExportConstants(pTHX)
     DO_CONST_IV(SERVICE_ERROR_CRITICAL);
 
     // Define the Group Identifier (prepend this value to the name of a dependent group)
-    DO_CONST_PV(sc_group_identifier_str);
+    DO_CONST_PV_NAME("SC_GROUP_IDENTIFIER", sc_group_identifier_str);
 
     // Define the state's default error
     DO_CONST_IV(NO_ERROR);
