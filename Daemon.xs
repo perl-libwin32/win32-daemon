@@ -958,12 +958,7 @@ BOOL WINAPI DllMain( HINSTANCE  hinstDLL, DWORD fdwReason, LPVOID  lpvReserved )
 			gdwControlsAccepted = 0;
 			switch( gsOSVerInfo.dwMajorVersion )
 			{
-				case 11 ... 1000000:  // assume version will never reach a million
-				case 10:
-				case 9:
-				case 8:
-				case 7:
-				case 6:
+				default:
 					// We have Windows Vista
 					//  The following constants only work on Vista and higher:
 					//      SERVICE_ACCEPT_PRESHUTDOWN
