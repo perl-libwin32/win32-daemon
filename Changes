@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+    - dwControlsAccepted wasn't being initialized properly on Windows 10
+      (#14, #16)
 
 20190315  2019-03-16
     - fix and simplify constant exporting (#13)
