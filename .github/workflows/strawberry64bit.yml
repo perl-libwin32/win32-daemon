@@ -1,4 +1,4 @@
-name: windows
+name: windows-strawberry-64bit
 on:
   push:
     branches:
