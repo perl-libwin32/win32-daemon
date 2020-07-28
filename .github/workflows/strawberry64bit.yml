@@ -1,0 +1,51 @@
+name: windows
+on:
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+  pull_request:
+jobs:
+  perl:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        perl-version:
+          - '5.30.2.1'
+          # - '5.28.2.1'
+          # - '5.26.3.1'
+          # - '5.24.4.1'
+          # - '5.22.3.1'
+          # - '5.20.3.3'
+          # - '5.18.4.1'
+          # - '5.16.3.1'
+          - '5.14.4.1'
+    steps:
+      - name: Set git to use LF
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+      - uses: actions/checkout@v2
+      - name: Remove GH's Strawberry Perl and MinGW from Path
+        run: |
+          echo "::set-env name=PATH::$(($env:Path.split(";", [System.StringSplitOptions]::RemoveEmptyEntries) | where{-not ($_ -clike '*Strawberry*' -or $_ -clike '*mingw*')}) -join ';')"
+      - name: Add our new Strawberry Portable Perl Paths
+        run: |
+          Remove-Item C:\straw -Recurse -ErrorAction Ignore
+          mkdir C:\straw
+          echo "::add-path::C:\straw\c\bin;C:\straw\perl\site\bin;C:\straw\perl\bin"
+          echo $env:PATH
+      - name: Set up our new Strawberry Perl
+        run: |
+          Invoke-WebRequest -Uri https://strawberry.perl.bot/download/${{ matrix.perl-version }}/strawberry-perl-${{ matrix.perl-version }}-64bit-portable.zip -OutFile ${{matrix.perl-version}}.zip
+          7z x "${{matrix.perl-version}}.zip" -oC:\straw
+      - name: perl -V
+        run: perl -V
+      - name: Ensure old Strawberries have a good toolchain
+        run: cpanm ExtUtils::Manifest App::cpanminus
+      - name: Install Dependencies
+        run: cpanm --installdeps .
+      - name: Run Tests
+        run: cpanm --test-only -v .
