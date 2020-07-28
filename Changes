@@ -1,6 +1,8 @@
 Revision history for Perl extension {{$dist->name}}
 
 {{$NEXT}}
+
+20200728  2020-07-28
     - dwControlsAccepted wasn't being initialized properly on Windows 10
       (#14, #16)
 
