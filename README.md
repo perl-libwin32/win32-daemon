@@ -629,7 +629,7 @@ while( SERVICE_STOPPED != ( $State = Win32::Daemon::State() ) )
       Win32::Daemon::State( SERVICE_RUNNING );
       $PrevState = SERVICE_RUNNING;
   }
-  elseif( SERVICE_STOP_PENDING == $State )
+  elsif( SERVICE_STOP_PENDING == $State )
   {
     Win32::Daemon::State( SERVICE_STOPPED );
   }
