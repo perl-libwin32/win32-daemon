@@ -707,7 +707,7 @@ This particular example does not really illustrate the capabilities of a Perl ba
         Win32::Daemon::State( SERVICE_RUNNING );
         $PrevState = SERVICE_RUNNING;
     }
-    elseif( SERVICE_STOP_PENDING == $State )
+    elsif( SERVICE_STOP_PENDING == $State )
     {
       Win32::Daemon::State( SERVICE_STOPPED );
     }
