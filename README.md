@@ -231,7 +231,7 @@ This extension enables a Win32 Perl script to act as a true Win32 service.
     This will return a binary Security Descriptor (SD) that is associated with the
     specified service on the specified machine.
 
-    The SD is in self-relative format. It can be imported into a `[Win32::Perms](https://metacpan.org/pod/Win32::Perms)` object using
+    The SD is in self-relative format. It can be imported into a `[Win32::Perms](https://metacpan.org/pod/Win32%3A%3APerms)` object using
     the `Win32::Perms` object's `Import()` method.
 
 - RegisterCallbacks( $CodeRef | \\%Hash )
@@ -629,7 +629,7 @@ while( SERVICE_STOPPED != ( $State = Win32::Daemon::State() ) )
       Win32::Daemon::State( SERVICE_RUNNING );
       $PrevState = SERVICE_RUNNING;
   }
-  elseif( SERVICE_STOP_PENDING == $State )
+  elsif( SERVICE_STOP_PENDING == $State )
   {
     Win32::Daemon::State( SERVICE_STOPPED );
   }
